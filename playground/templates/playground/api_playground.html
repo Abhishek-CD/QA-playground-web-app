@@ -1,0 +1,112 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}API Playground Practice{% endblock %}
+
+{% block content %}
+<div id="div-api-playground-wrapper" data-testid="api-playground-wrapper" class="grid-2">
+
+  <!-- Request Builder Card -->
+  <div id="card-api-request-builder" data-testid="card-api-request-builder" class="qa-card">
+    <div id="header-api-request-builder" class="qa-card-header">
+      <h3 id="title-api-request-builder" class="qa-card-title">🌐 HTTP Request Builder</h3>
+      <span id="badge-api-latency" data-testid="badge-api-latency" class="qa-badge qa-badge-blue">0ms</span>
+    </div>
+
+    <!-- Method & URL -->
+    <div id="group-api-endpoint" class="form-group">
+      <label id="label-api-endpoint" class="form-label">HTTP Method & Endpoint</label>
+      <div id="div-api-endpoint-row" style="display: flex; gap: 8px;">
+        <select id="select-api-method" data-testid="select-api-method" data-qa="api-method-select" class="form-select" style="width: 110px;">
+          <option id="opt-method-get" value="GET">GET</option>
+          <option id="opt-method-post" value="POST">POST</option>
+          <option id="opt-method-put" value="PUT">PUT</option>
+          <option id="opt-method-delete" value="DELETE">DELETE</option>
+        </select>
+        <input type="text" id="input-api-url" data-testid="input-api-url" data-qa="api-url-input" class="form-input" value="/api/mock-response/" readonly />
+      </div>
+      <span class="selector-info-tag">id="select-api-method"</span>
+    </div>
+
+    <!-- Simulated Status Code Switcher -->
+    <div id="group-api-status-code" class="form-group" style="margin-top: 16px;">
+      <label id="label-api-status-code" for="select-mock-status" class="form-label">Simulate Target Status Code</label>
+      <select id="select-mock-status" data-testid="select-mock-status" data-qa="mock-status-select" class="form-select">
+        <option id="opt-status-200" value="200">200 OK (Success)</option>
+        <option id="opt-status-400" value="400">400 Bad Request</option>
+        <option id="opt-status-401" value="401">401 Unauthorized</option>
+        <option id="opt-status-404" value="404">404 Not Found</option>
+        <option id="opt-status-500" value="500">500 Internal Server Error</option>
+      </select>
+      <span class="selector-info-tag">id="select-mock-status"</span>
+    </div>
+
+    <!-- Payload Textarea -->
+    <div id="group-api-payload" class="form-group" style="margin-top: 16px;">
+      <label id="label-api-payload" for="textarea-api-payload" class="form-label">JSON Request Body Payload</label>
+      <textarea id="textarea-api-payload" data-testid="textarea-api-payload" data-qa="api-payload-textarea" class="form-textarea" rows="4">{
+  "test_suite": "Regression_Run_01",
+  "environment": "Staging",
+  "headless": true
+}</textarea>
+      <span class="selector-info-tag">id="textarea-api-payload"</span>
+    </div>
+
+    <button type="button" id="btn-send-api-request" data-testid="btn-send-api-request" data-qa="send-api-btn" class="qa-btn qa-btn-primary" style="width: 100%; margin-top: 16px;" onclick="executeMockApiRequest()">
+      🚀 Send HTTP Request
+    </button>
+  </div>
+
+  <!-- Response Viewer Card -->
+  <div id="card-api-response-viewer" data-testid="card-api-response-viewer" class="qa-card">
+    <div id="header-api-response-viewer" class="qa-card-header">
+      <h3 id="title-api-response-viewer" class="qa-card-title">📥 Response Body & Headers</h3>
+      <span id="badge-api-status-response" data-testid="badge-api-status-response" class="qa-badge qa-badge-success">Status: 200 OK</span>
+    </div>
+
+    <pre id="pre-api-response-json" data-testid="pre-api-response-json" data-qa="api-response-json" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 12.5px; color: var(--text-main); height: 320px; overflow: auto; white-space: pre-wrap;">
+Click "Send HTTP Request" to test API endpoints.
+    </pre>
+  </div>
+
+</div>
+
+<script>
+function executeMockApiRequest() {
+  const method = document.getElementById('select-api-method')?.value || 'GET';
+  const statusCode = document.getElementById('select-mock-status')?.value || '200';
+  const payloadRaw = document.getElementById('textarea-api-payload')?.value || '{}';
+  const badgeStatus = document.getElementById('badge-api-status-response');
+  const badgeLatency = document.getElementById('badge-api-latency');
+  const preResponse = document.getElementById('pre-api-response-json');
+
+  let payload = {};
+  try { payload = JSON.parse(payloadRaw); } catch(e) {}
+  payload.status = statusCode;
+
+  const startTime = performance.now();
+
+  fetch(`/api/mock-response/?status=${statusCode}`, {
+    method: method === 'GET' ? 'GET' : 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: method !== 'GET' ? JSON.stringify(payload) : null
+  })
+  .then(res => res.json().then(data => ({ status: res.status, data })))
+  .then(({ status, data }) => {
+    const elapsed = Math.round(performance.now() - startTime);
+    if (badgeLatency) badgeLatency.textContent = `${elapsed}ms`;
+
+    if (badgeStatus) {
+      badgeStatus.textContent = `Status: ${status}`;
+      badgeStatus.className = `qa-badge qa-badge-${status === 200 ? 'success' : 'danger'}`;
+    }
+
+    if (preResponse) {
+      preResponse.textContent = JSON.stringify(data, null, 2);
+    }
+  })
+  .catch(err => {
+    if (preResponse) preResponse.textContent = 'Error executing request: ' + err.message;
+  });
+}
+</script>
+{% endblock %}

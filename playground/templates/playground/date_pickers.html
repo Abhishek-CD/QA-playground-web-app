@@ -1,0 +1,111 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Date & Time Pickers Practice{% endblock %}
+
+{% block content %}
+<div id="div-date-pickers-wrapper" data-testid="date-pickers-wrapper" class="grid-2">
+
+  <!-- Date Selection Card -->
+  <div id="card-date-selection" data-testid="card-date-selection" class="qa-card">
+    <div id="header-date-selection" class="qa-card-header">
+      <h3 id="title-date-selection" class="qa-card-title">📅 Date Picker Inputs</h3>
+    </div>
+
+    <!-- Single Date -->
+    <div id="group-date-single" class="form-group">
+      <label id="label-date-single" for="input-date-single" class="form-label">Single Date Picker</label>
+      <input type="date" id="input-date-single" data-testid="input-date-single" data-qa="single-date-input" class="form-input" onchange="handleDateChange('text-single-date-val', this.value)" />
+      <div id="div-single-date-val" style="display: flex; justify-content: space-between; margin-top: 4px;">
+        <span class="selector-info-tag">id="input-date-single"</span>
+        <span id="text-single-date-val" data-testid="text-single-date-val" style="font-weight: 600; color: var(--accent-blue);">Selected: None</span>
+      </div>
+    </div>
+
+    <!-- Date Range -->
+    <div id="group-date-range" class="form-group">
+      <label id="label-date-range" class="form-label">Date Range Selection</label>
+      <div id="div-date-range-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label id="label-date-start" for="input-date-start" style="font-size: 11px; color: var(--text-dim);">Start Date</label>
+          <input type="date" id="input-date-start" data-testid="input-date-start" data-qa="start-date-input" class="form-input" />
+          <span class="selector-info-tag">id="input-date-start"</span>
+        </div>
+        <div>
+          <label id="label-date-end" for="input-date-end" style="font-size: 11px; color: var(--text-dim);">End Date</label>
+          <input type="date" id="input-date-end" data-testid="input-date-end" data-qa="end-date-input" class="form-input" />
+          <span class="selector-info-tag">id="input-date-end"</span>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" id="btn-verify-date-range" data-testid="btn-verify-date-range" class="qa-btn qa-btn-primary" onclick="verifyDateRange()">
+      Verify Date Range
+    </button>
+  </div>
+
+  <!-- Time & Advanced Restriction Pickers -->
+  <div id="card-time-pickers" data-testid="card-time-pickers" class="qa-card">
+    <div id="header-time-pickers" class="qa-card-header">
+      <h3 id="title-time-pickers" class="qa-card-title">⏰ Time & DateTime Pickers</h3>
+    </div>
+
+    <!-- Time Picker -->
+    <div id="group-time-picker" class="form-group">
+      <label id="label-time-picker" for="input-time-picker" class="form-label">Time Picker</label>
+      <input type="time" id="input-time-picker" data-testid="input-time-picker" data-qa="time-picker-input" class="form-input" onchange="handleDateChange('text-time-val', this.value)" />
+      <div id="div-time-val-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
+        <span class="selector-info-tag">id="input-time-picker"</span>
+        <span id="text-time-val" data-testid="text-time-val" style="font-weight: 600; color: var(--accent-purple);">Time: None</span>
+      </div>
+    </div>
+
+    <!-- DateTime Local -->
+    <div id="group-datetime-picker" class="form-group">
+      <label id="label-datetime-picker" for="input-datetime-picker" class="form-label">DateTime Local Picker</label>
+      <input type="datetime-local" id="input-datetime-picker" data-testid="input-datetime-picker" data-qa="datetime-picker-input" class="form-input" onchange="handleDateChange('text-datetime-val', this.value)" />
+      <div id="div-datetime-val-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
+        <span class="selector-info-tag">id="input-datetime-picker"</span>
+        <span id="text-datetime-val" data-testid="text-datetime-val" style="font-weight: 600; color: var(--success);">DateTime: None</span>
+      </div>
+    </div>
+
+    <!-- Restricted Future Dates -->
+    <div id="group-future-date" class="form-group">
+      <label id="label-future-date" for="input-future-date" class="form-label">Future Dates Only (Min: Today)</label>
+      <input type="date" id="input-future-date" data-testid="input-future-date" data-qa="future-date-input" class="form-input" />
+      <span class="selector-info-tag">id="input-future-date"</span>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  const futureInput = document.getElementById('input-future-date');
+  if (futureInput) futureInput.setAttribute('min', today);
+});
+
+function handleDateChange(targetId, val) {
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.textContent = `Selected: ${val}`;
+  }
+}
+
+function verifyDateRange() {
+  const start = document.getElementById('input-date-start')?.value;
+  const end = document.getElementById('input-date-end')?.value;
+  if (!start || !end) {
+    showQAToast('Please select both Start Date and End Date', 'warning');
+    return;
+  }
+  if (new Date(start) > new Date(end)) {
+    showQAToast('Error: Start Date cannot be after End Date!', 'error');
+  } else {
+    showQAToast(`Date Range Verified: ${start} to ${end}`, 'success');
+  }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Documentation & Locator Cheatsheet{% endblock %}
+
+{% block content %}
+<div id="div-docs-wrapper" data-testid="docs-wrapper">
+
+  <!-- Documentation Header Card -->
+  <div id="card-docs-intro" data-testid="card-docs-intro" class="qa-card">
+    <div id="header-docs-intro" class="qa-card-header">
+      <h2 id="heading-docs-title" class="qa-card-title">📖 QA Automation Selector Reference Guide</h2>
+      <span class="qa-badge qa-badge-purple">Selenium / Playwright / Cypress</span>
+    </div>
+
+    <p id="text-docs-desc" class="qa-card-subtitle">
+      Every element across all 30+ QA Playground practice views contains unique <code>id</code>, <code>data-testid</code>, and <code>data-qa</code> attributes. Below are quick locator snippets for popular testing frameworks.
+    </p>
+  </div>
+
+  <!-- Framework Cheatsheet Grid -->
+  <div id="div-cheatsheet-grid" class="grid-2">
+
+    <!-- 1. Selenium Python & Java -->
+    <div id="card-cheat-selenium" data-testid="card-cheat-selenium" class="qa-card">
+      <div id="header-cheat-selenium" class="qa-card-header">
+        <h3 id="title-cheat-selenium" class="qa-card-title">🐍 Selenium WebDriver (Python / Java)</h3>
+      </div>
+
+      <pre id="code-selenium-snippet" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--accent-blue); overflow-x: auto;">
+# Python Selenium Example
+from selenium.webdriver.common.by import By
+
+username_input = driver.find_element(By.ID, "input-username")
+login_button = driver.find_element(By.CSS_SELECTOR, "[data-testid='btn-login-submit']")
+table_row = driver.find_element(By.XPATH, "//tr[@id='tr-user-row-1']")
+
+username_input.send_keys("admin")
+login_button.click()
+      </pre>
+    </div>
+
+    <!-- 2. Playwright Python & Node.js -->
+    <div id="card-cheat-playwright" data-testid="card-cheat-playwright" class="qa-card">
+      <div id="header-cheat-playwright" class="qa-card-header">
+        <h3 id="title-cheat-playwright" class="qa-card-title">🎭 Playwright (Python & Node.js)</h3>
+      </div>
+
+      <pre id="code-playwright-snippet" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--accent-purple); overflow-x: auto;">
+# Playwright Python Example
+page.goto("http://localhost:8000/login/")
+
+# Locating by test-id or id
+await page.locator('#input-username').fill('admin')
+await page.get_by_test_id('btn-login-submit').click()
+
+# Open Shadow DOM element access
+await page.locator('#shadow-input-open').fill('Shadow DOM Input')
+      </pre>
+    </div>
+
+    <!-- 3. Cypress.io -->
+    <div id="card-cheat-cypress" data-testid="card-cheat-cypress" class="qa-card">
+      <div id="header-cheat-cypress" class="qa-card-header">
+        <h3 id="title-cheat-cypress" class="qa-card-title">🌲 Cypress.io</h3>
+      </div>
+
+      <pre id="code-cypress-snippet" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--success); overflow-x: auto;">
+// Cypress Test Script
+describe('QA Playground - Login Test', () => {
+  it('should sign in with admin credentials', () => {
+    cy.visit('http://localhost:8000/login/');
+    cy.get('#input-username').type('admin');
+    cy.get('#input-password').type('admin123');
+    cy.get('[data-testid="btn-login-submit"]').click();
+  });
+});
+      </pre>
+    </div>
+
+    <!-- 4. WebDriverIO & Robot Framework -->
+    <div id="card-cheat-webdriverio" data-testid="card-cheat-webdriverio" class="qa-card">
+      <div id="header-cheat-webdriverio" class="qa-card-header">
+        <h3 id="title-cheat-webdriverio" class="qa-card-title">🤖 Robot Framework & WebDriverIO</h3>
+      </div>
+
+      <pre id="code-robot-snippet" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--warning); overflow-x: auto;">
+# Robot Framework SeleniumLibrary
+*** Test Cases ***
+Verify User Registration
+    Open Browser    http://localhost:8000/register/    chrome
+    Input Text      id=input-first-name    John
+    Input Text      id=input-last-name     Doe
+    Click Button    id=btn-reg-submit
+      </pre>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

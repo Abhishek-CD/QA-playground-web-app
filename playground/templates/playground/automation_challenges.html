@@ -1,0 +1,84 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Automation Edge-Case Challenges{% endblock %}
+
+{% block content %}
+<div id="div-challenges-wrapper" data-testid="challenges-wrapper" class="grid-2">
+
+  <!-- Stale Element Exception Challenge Card -->
+  <div id="card-stale-element" data-testid="card-stale-element" class="qa-card">
+    <div id="header-stale-element" class="qa-card-header">
+      <h3 id="title-stale-element" class="qa-card-title">🔥 StaleElementReferenceException Simulation</h3>
+      <span class="qa-badge qa-badge-danger">Edge Case</span>
+    </div>
+
+    <p id="text-stale-desc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+      Clicking the button below replaces the DOM node completely, rendering pre-stored Selenium web element references stale.
+    </p>
+
+    <div id="div-stale-target-container" data-testid="div-stale-target-container" style="margin-bottom: 16px;">
+      <button type="button" id="btn-stale-target-element" data-testid="btn-stale-target-element" class="qa-btn qa-btn-primary" onclick="replaceStaleElementNode()">
+        Original DOM Node #1 (Click to Re-render)
+      </button>
+    </div>
+
+    <span class="selector-info-tag">id="btn-stale-target-element"</span>
+  </div>
+
+  <!-- Click Interceptor Overlay Challenge Card -->
+  <div id="card-click-interceptor" data-testid="card-click-interceptor" class="qa-card">
+    <div id="header-click-interceptor" class="qa-card-header">
+      <h3 id="title-click-interceptor" class="qa-card-title">🛡️ Element Click Intercepted Simulation</h3>
+    </div>
+
+    <p id="text-interceptor-desc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+      Simulates an invisible spinner or banner overlay intercepting mouse clicks on the underlying button.
+    </p>
+
+    <div id="div-interceptor-box-relative" style="position: relative; padding: 20px; background: var(--bg-main); border-radius: 8px;">
+      <button type="button" id="btn-underlying-target" data-testid="btn-underlying-target" class="qa-btn qa-btn-success" onclick="showQAToast('Successfully Clicked Target Button!', 'success')">
+        Target Action Button
+      </button>
+
+      <div id="overlay-interceptor-shield" data-testid="overlay-interceptor-shield" style="display: none; position: absolute; inset: 0; background: rgba(239, 68, 68, 0.4); border-radius: 8px; align-items: center; justify-content: center; color: #fff; font-weight: 700;">
+        ⚠️ Click Intercepted by Overlay!
+      </div>
+    </div>
+
+    <div id="group-interceptor-toggle" style="margin-top: 16px; display: flex; gap: 12px;">
+      <button type="button" id="btn-enable-interceptor" data-testid="btn-enable-interceptor" class="qa-btn qa-btn-secondary" onclick="toggleOverlayShield(true)">
+        Enable Overlay Shield
+      </button>
+      <button type="button" id="btn-disable-interceptor" data-testid="btn-disable-interceptor" class="qa-btn qa-btn-secondary" onclick="toggleOverlayShield(false)">
+        Disable Overlay Shield
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let staleNodeCount = 1;
+
+function replaceStaleElementNode() {
+  const container = document.getElementById('div-stale-target-container');
+  if (!container) return;
+
+  staleNodeCount++;
+  // Replaces the DOM element node completely
+  container.innerHTML = `
+    <button type="button" id="btn-stale-target-element" data-testid="btn-stale-target-element" class="qa-btn qa-btn-purple" onclick="replaceStaleElementNode()">
+      Re-rendered DOM Node #${staleNodeCount}
+    </button>
+  `;
+  showQAToast(`Re-created DOM node (Iteration #${staleNodeCount}). Previous reference is now STALE!`, 'warning');
+}
+
+function toggleOverlayShield(enable) {
+  const shield = document.getElementById('overlay-interceptor-shield');
+  if (shield) {
+    shield.style.display = enable ? 'flex' : 'none';
+  }
+}
+</script>
+{% endblock %}

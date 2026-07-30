@@ -1,0 +1,111 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}File Upload Practice{% endblock %}
+
+{% block content %}
+<div id="div-file-upload-wrapper" data-testid="file-upload-wrapper" class="grid-2">
+
+  <!-- Single & Multi File Picker Card -->
+  <div id="card-standard-file-upload" data-testid="card-standard-file-upload" class="qa-card">
+    <div id="header-standard-file-upload" class="qa-card-header">
+      <h3 id="title-standard-file-upload" class="qa-card-title">📤 Standard File Uploader</h3>
+    </div>
+
+    <form id="form-file-upload-demo" data-testid="form-file-upload-demo" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <!-- Single File -->
+      <div id="group-file-single" class="form-group">
+        <label id="label-file-single" for="input-file-single" class="form-label">Single File Upload (.pdf, .png, .csv)</label>
+        <input type="file" id="input-file-single" data-testid="input-file-single" data-qa="single-file-input" class="form-input" onchange="handleFileSelection(this, 'text-single-file-info')" />
+        <div id="div-single-file-info-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
+          <span class="selector-info-tag">id="input-file-single"</span>
+          <span id="text-single-file-info" data-testid="text-single-file-info" style="font-weight: 600; color: var(--accent-blue);">Selected: None</span>
+        </div>
+      </div>
+
+      <!-- Multiple Files -->
+      <div id="group-file-multi" class="form-group" style="margin-top: 24px;">
+        <label id="label-file-multi" for="input-file-multi" class="form-label">Multiple File Upload</label>
+        <input type="file" id="input-file-multi" data-testid="input-file-multi" data-qa="multi-file-input" class="form-input" multiple onchange="handleFileSelection(this, 'text-multi-file-info')" />
+        <div id="div-multi-file-info-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
+          <span class="selector-info-tag">id="input-file-multi"</span>
+          <span id="text-multi-file-info" data-testid="text-multi-file-info" style="font-weight: 600; color: var(--accent-purple);">Selected: None</span>
+        </div>
+      </div>
+
+      <button type="button" id="btn-submit-files-api" data-testid="btn-submit-files-api" class="qa-btn qa-btn-primary" onclick="uploadFilesViaAPI()">
+        Upload Files to Server
+      </button>
+    </form>
+  </div>
+
+  <!-- Drag Upload & Image Preview Card -->
+  <div id="card-drag-upload" data-testid="card-drag-upload" class="qa-card">
+    <div id="header-drag-upload" class="qa-card-header">
+      <h3 id="title-drag-upload" class="qa-card-title">🖼️ Drag & Drop Upload Zone & Live Preview</h3>
+    </div>
+
+    <!-- Drag Zone -->
+    <div id="div-drag-upload-zone" data-testid="div-drag-upload-zone" data-qa="drag-upload-area" style="background: var(--bg-main); border: 2px dashed var(--accent-blue); padding: 32px; border-radius: 12px; text-align: center; cursor: pointer;">
+      <div id="icon-drag-cloud" style="font-size: 36px; margin-bottom: 8px;">☁️</div>
+      <div id="text-drag-cloud-title" style="font-weight: 700;">Drag Files Here to Upload</div>
+      <div id="text-drag-cloud-sub" style="font-size: 12px; color: var(--text-dim); margin-top: 4px;">Supports PNG, JPG, PDF, TXT</div>
+      <span class="selector-info-tag" style="margin-top: 12px;">id="div-drag-upload-zone"</span>
+    </div>
+
+    <!-- Upload Progress -->
+    <div id="group-upload-progress" class="form-group" style="margin-top: 20px;">
+      <div id="div-upload-progress-header" style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px;">
+        <span id="label-upload-progress-title">Upload Progress</span>
+        <span id="text-upload-progress-percent" style="font-weight: 700; color: var(--success);">0%</span>
+      </div>
+      <div id="track-upload-progress" style="width: 100%; height: 8px; background: var(--bg-main); border-radius: 4px; overflow: hidden;">
+        <div id="fill-upload-progress" style="width: 0%; height: 100%; background: var(--success); transition: width 0.2s;"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function handleFileSelection(input, targetId) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  if (input.files && input.files.length > 0) {
+    if (input.files.length === 1) {
+      target.textContent = `Selected: ${input.files[0].name} (${(input.files[0].size / 1024).toFixed(1)} KB)`;
+    } else {
+      target.textContent = `Selected: ${input.files.length} Files`;
+    }
+  } else {
+    target.textContent = 'Selected: None';
+  }
+}
+
+function uploadFilesViaAPI() {
+  const fileInput = document.getElementById('input-file-single');
+  if (!fileInput || !fileInput.files.length) {
+    showQAToast('Please select a file to upload first!', 'warning');
+    return;
+  }
+
+  const fill = document.getElementById('fill-upload-progress');
+  const percent = document.getElementById('text-upload-progress-percent');
+
+  let current = 0;
+  const interval = setInterval(() => {
+    current += 20;
+    if (fill) fill.style.width = current + '%';
+    if (percent) percent.textContent = current + '%';
+
+    if (current >= 100) {
+      clearInterval(interval);
+      showQAToast(`File "${fileInput.files[0].name}" uploaded successfully!`, 'success');
+    }
+  }, 100);
+}
+</script>
+{% endblock %}

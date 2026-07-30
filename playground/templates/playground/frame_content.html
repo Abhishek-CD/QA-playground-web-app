@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html id="html-frame-root" lang="en">
+<head id="head-frame-root">
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background-color: #0F172A;
+      color: #F9FAFB;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 16px;
+      margin: 0;
+    }
+    .frame-box {
+      border: 1px dashed #3B82F6;
+      border-radius: 8px;
+      padding: 16px;
+      background: #1E293B;
+    }
+    .qa-btn {
+      background: #3B82F6;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .form-input {
+      width: 100%;
+      padding: 8px;
+      background: #0B1120;
+      border: 1px solid #334155;
+      color: #fff;
+      border-radius: 4px;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body id="body-frame-content-{{ frame_id }}">
+  <div id="div-frame-inside-container" data-testid="frame-inside-container-{{ frame_id }}" class="frame-box">
+    <h4 id="heading-frame-inside-title">🖼️ Sandboxed IFrame Content (ID: {{ frame_id }})</h4>
+    <p id="text-frame-desc" style="font-size:12px; color:#9CA3AF;">This input element lives inside an isolated iframe DOM context. Automation engines must call <code>driver.switch_to.frame('iframe-demo-{{ frame_id }}')</code> before interacting.</p>
+    
+    <label id="label-frame-input" for="input-inside-frame-{{ frame_id }}" style="font-size:12px; font-weight:600;">Input Inside IFrame</label>
+    <input type="text" id="input-inside-frame-{{ frame_id }}" data-testid="input-inside-frame-{{ frame_id }}" data-qa="iframe-input" class="form-input" placeholder="Type text inside iframe..." />
+    
+    <button type="button" id="btn-submit-inside-frame-{{ frame_id }}" data-testid="btn-submit-inside-frame-{{ frame_id }}" data-qa="iframe-submit-btn" class="qa-btn" onclick="submitFrameMessage()">
+      Submit From Inside IFrame
+    </button>
+    <div id="text-frame-output-{{ frame_id }}" style="margin-top:8px; font-weight:700; color:#22C55E;"></div>
+  </div>
+
+  <script>
+  function submitFrameMessage() {
+    const val = document.getElementById('input-inside-frame-{{ frame_id }}').value;
+    const output = document.getElementById('text-frame-output-{{ frame_id }}');
+    if (output) {
+      output.textContent = `IFrame Submitted Value: "${val || 'Empty'}"`;
+    }
+  }
+  </script>
+</body>
+</html>

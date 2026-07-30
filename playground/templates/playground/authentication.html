@@ -1,0 +1,92 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Auth & Roles Practice{% endblock %}
+
+{% block content %}
+<div id="div-auth-wrapper" data-testid="auth-wrapper" class="grid-2">
+
+  <!-- OTP Verification Card -->
+  <div id="card-otp-verification" data-testid="card-otp-verification" class="qa-card">
+    <div id="header-otp-verification" class="qa-card-header">
+      <h3 id="title-otp-verification" class="qa-card-title">🔐 OTP 6-Digit Verification Simulator</h3>
+      <span class="qa-badge qa-badge-blue">Mock 2FA</span>
+    </div>
+
+    <p id="text-otp-instruction" style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+      Mock OTP code is <b>987654</b>. Enter digits into the 6 input fields below.
+    </p>
+
+    <div id="div-otp-inputs-row" style="display: flex; gap: 8px; justify-content: center; margin-bottom: 20px;">
+      <input type="text" id="input-otp-digit-1" data-testid="input-otp-digit-1" maxlength="1" class="form-input" style="width: 45px; text-align: center; font-size: 20px; font-weight: 800;" onkeyup="focusNextOtp(this, 'input-otp-digit-2')" />
+      <input type="text" id="input-otp-digit-2" data-testid="input-otp-digit-2" maxlength="1" class="form-input" style="width: 45px; text-align: center; font-size: 20px; font-weight: 800;" onkeyup="focusNextOtp(this, 'input-otp-digit-3')" />
+      <input type="text" id="input-otp-digit-3" data-testid="input-otp-digit-3" maxlength="1" class="form-input" style="width: 45px; text-align: center; font-size: 20px; font-weight: 800;" onkeyup="focusNextOtp(this, 'input-otp-digit-4')" />
+      <input type="text" id="input-otp-digit-4" data-testid="input-otp-digit-4" maxlength="1" class="form-input" style="width: 45px; text-align: center; font-size: 20px; font-weight: 800;" onkeyup="focusNextOtp(this, 'input-otp-digit-5')" />
+      <input type="text" id="input-otp-digit-5" data-testid="input-otp-digit-5" maxlength="1" class="form-input" style="width: 45px; text-align: center; font-size: 20px; font-weight: 800;" onkeyup="focusNextOtp(this, 'input-otp-digit-6')" />
+      <input type="text" id="input-otp-digit-6" data-testid="input-otp-digit-6" maxlength="1" class="form-input" style="width: 45px; text-align: center; font-size: 20px; font-weight: 800;" />
+    </div>
+
+    <button type="button" id="btn-verify-otp-code" data-testid="btn-verify-otp-code" data-qa="verify-otp-btn" class="qa-btn qa-btn-primary" style="width: 100%;" onclick="verifyOtpCode()">
+      Verify OTP Code
+    </button>
+  </div>
+
+  <!-- Role-Based Dashboard View Switcher Card -->
+  <div id="card-role-switcher" data-testid="card-role-switcher" class="qa-card">
+    <div id="header-role-switcher" class="qa-card-header">
+      <h3 id="title-role-switcher" class="qa-card-title">👤 Role-Based Dashboard Simulator</h3>
+    </div>
+
+    <div id="group-role-select" class="form-group">
+      <label id="label-role-select" for="select-active-role" class="form-label">Select Active User Role</label>
+      <select id="select-active-role" data-testid="select-active-role" data-qa="role-selector" class="form-select" onchange="switchRoleView(this.value)">
+        <option id="opt-role-admin" value="admin">System Administrator</option>
+        <option id="opt-role-manager" value="manager">QA Manager</option>
+        <option id="opt-role-customer" value="customer">End Customer</option>
+      </select>
+      <span class="selector-info-tag">id="select-active-role"</span>
+    </div>
+
+    <div id="div-role-view-container" data-testid="div-role-view-container" class="qa-card" style="background: var(--bg-main); margin-bottom: 0; padding: 16px;">
+      <h4 id="heading-role-title" style="font-size: 16px; font-weight: 700; color: var(--accent-blue);">Admin Control Center</h4>
+      <p id="text-role-access-desc" style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+        Full Access: System Settings, User Deletion, Database Backups, CI/CD Pipeline Triggers.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function focusNextOtp(elem, nextId) {
+  if (elem.value.length >= 1) {
+    const nextElem = document.getElementById(nextId);
+    if (nextElem) nextElem.focus();
+  }
+}
+
+function verifyOtpCode() {
+  let otp = '';
+  for (let i = 1; i <= 6; i++) {
+    otp += document.getElementById(`input-otp-digit-${i}`)?.value || '';
+  }
+  if (otp === '987654') {
+    showQAToast('2FA OTP Code Verified Successfully!', 'success');
+  } else {
+    showQAToast('Invalid OTP Code! Expected: 987654', 'error');
+  }
+}
+
+function switchRoleView(role) {
+  const container = document.getElementById('div-role-view-container');
+  if (!container) return;
+
+  if (role === 'admin') {
+    container.innerHTML = '<h4 style="font-size:16px; font-weight:700; color:#3B82F6;">Admin Control Center</h4><p style="font-size:13px; color:#9CA3AF; margin-top:4px;">Full Access: System Settings, User Deletion, Database Backups, CI/CD Triggers.</p>';
+  } else if (role === 'manager') {
+    container.innerHTML = '<h4 style="font-size:16px; font-weight:700; color:#8B5CF6;">QA Manager Dashboard</h4><p style="font-size:13px; color:#9CA3AF; margin-top:4px;">Medium Access: View Reports, Assign Test Suites, Export Metrics, Approve Releases.</p>';
+  } else {
+    container.innerHTML = '<h4 style="font-size:16px; font-weight:700; color:#22C55E;">Customer Portal</h4><p style="font-size:13px; color:#9CA3AF; margin-top:4px;">Restricted Access: View Products, Place Orders, Track Shipments.</p>';
+  }
+}
+</script>
+{% endblock %}

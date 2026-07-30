@@ -1,0 +1,143 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Progress Bars & Loaders Practice{% endblock %}
+
+{% block content %}
+<div id="div-progress-bars-wrapper" data-testid="progress-bars-wrapper" class="grid-2">
+
+  <!-- Interactive Progress Bar Card -->
+  <div id="card-linear-progress" data-testid="card-linear-progress" class="qa-card">
+    <div id="header-linear-progress" class="qa-card-header">
+      <h3 id="title-linear-progress" class="qa-card-title">⏳ Linear Percentage Loader</h3>
+      <span id="text-linear-percentage" data-testid="text-linear-percentage" style="font-weight: 800; color: var(--accent-blue);">0%</span>
+    </div>
+
+    <!-- Progress Track -->
+    <div id="track-linear-progress" data-testid="track-linear-progress" style="width: 100%; height: 16px; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
+      <div id="fill-linear-progress" data-testid="fill-linear-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); transition: width 0.2s ease;"></div>
+    </div>
+
+    <div id="group-linear-progress-controls" style="display: flex; gap: 12px;">
+      <button type="button" id="btn-start-linear-progress" data-testid="btn-start-linear-progress" data-qa="start-progress-btn" class="qa-btn qa-btn-primary" onclick="startLinearProgress()">
+        Start Download Progress
+      </button>
+      <button type="button" id="btn-reset-linear-progress" data-testid="btn-reset-linear-progress" data-qa="reset-progress-btn" class="qa-btn qa-btn-secondary" onclick="resetLinearProgress()">
+        Reset Progress
+      </button>
+    </div>
+  </div>
+
+  <!-- Countdown Timer Card -->
+  <div id="card-countdown-timer" data-testid="card-countdown-timer" class="qa-card">
+    <div id="header-countdown-timer" class="qa-card-header">
+      <h3 id="title-countdown-timer" class="qa-card-title">⏱️ Interactive Countdown Timer</h3>
+      <span id="text-timer-display" data-testid="text-timer-display" style="font-size: 24px; font-weight: 800; color: var(--success);">00:10</span>
+    </div>
+
+    <p id="text-timer-desc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+      Start, pause, or reset timer. Useful for validating wait conditions in automated test scripts.
+    </p>
+
+    <div id="group-timer-controls" style="display: flex; gap: 12px;">
+      <button type="button" id="btn-timer-start" data-testid="btn-timer-start" data-qa="start-timer-btn" class="qa-btn qa-btn-success" onclick="startTimer()">
+        Start Timer
+      </button>
+      <button type="button" id="btn-timer-pause" data-testid="btn-timer-pause" data-qa="pause-timer-btn" class="qa-btn qa-btn-secondary" onclick="pauseTimer()">
+        Pause Timer
+      </button>
+      <button type="button" id="btn-timer-reset" data-testid="btn-timer-reset" data-qa="reset-timer-btn" class="qa-btn qa-btn-danger" onclick="resetTimer()">
+        Reset Timer
+      </button>
+    </div>
+  </div>
+
+  <!-- Infinite Loader & Pulse Bar -->
+  <div id="card-infinite-loader" data-testid="card-infinite-loader" class="qa-card" style="grid-column: 1 / -1;">
+    <div id="header-infinite-loader" class="qa-card-header">
+      <h3 id="title-infinite-loader" class="qa-card-title">🔄 Infinite Loading Animation</h3>
+    </div>
+
+    <div id="track-infinite-pulse" style="width: 100%; height: 10px; background: var(--bg-main); border-radius: 5px; overflow: hidden; position: relative;">
+      <div id="fill-infinite-pulse" style="width: 30%; height: 100%; background: var(--accent-purple); position: absolute; animation: infiniteSlide 1.5s infinite linear;"></div>
+    </div>
+    <span class="selector-info-tag" style="margin-top: 12px;">id="fill-infinite-pulse"</span>
+  </div>
+
+</div>
+
+<style>
+@keyframes infiniteSlide {
+  0% { left: -30%; }
+  100% { left: 100%; }
+}
+</style>
+
+<script>
+let progressInterval = null;
+let timerInterval = null;
+let timerSeconds = 10;
+
+function startLinearProgress() {
+  const fill = document.getElementById('fill-linear-progress');
+  const text = document.getElementById('text-linear-percentage');
+  const btn = document.getElementById('btn-start-linear-progress');
+  if (!fill || !text) return;
+
+  btn.disabled = true;
+  let current = 0;
+  clearInterval(progressInterval);
+
+  progressInterval = setInterval(() => {
+    current += 5;
+    fill.style.width = current + '%';
+    text.textContent = current + '%';
+
+    if (current >= 100) {
+      clearInterval(progressInterval);
+      btn.disabled = false;
+      showQAToast('Progress Completed (100%)', 'success');
+    }
+  }, 150);
+}
+
+function resetLinearProgress() {
+  clearInterval(progressInterval);
+  document.getElementById('fill-linear-progress').style.width = '0%';
+  document.getElementById('text-linear-percentage').textContent = '0%';
+  document.getElementById('btn-start-linear-progress').disabled = false;
+}
+
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    if (timerSeconds > 0) {
+      timerSeconds--;
+      updateTimerDisplay();
+    } else {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      showQAToast('Timer Countdown Finished!', 'info');
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerSeconds = 10;
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const display = document.getElementById('text-timer-display');
+  if (display) {
+    display.textContent = `00:${timerSeconds < 10 ? '0' + timerSeconds : timerSeconds}`;
+  }
+}
+</script>
+{% endblock %}

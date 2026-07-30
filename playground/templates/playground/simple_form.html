@@ -1,0 +1,159 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Simple Form Practice{% endblock %}
+
+{% block content %}
+<div id="div-simple-form-wrapper" data-testid="simple-form-wrapper" class="grid-2">
+
+  <!-- 1. Single Input Demo Card -->
+  <div id="card-single-input-demo" data-testid="card-single-input-demo" class="qa-card">
+    <div id="header-single-input" class="qa-card-header">
+      <h3 id="title-single-input" class="qa-card-title">📝 Single Input Field</h3>
+      <span class="selector-info-tag">id="input-single-message"</span>
+    </div>
+
+    <div id="group-single-input" class="form-group">
+      <label id="label-user-message" for="input-single-message" class="form-label">Enter Message</label>
+      <input type="text" id="input-single-message" data-testid="input-single-message" data-qa="user-message-input" class="form-input" placeholder="Type your text message here..." />
+    </div>
+
+    <button type="button" id="btn-show-message" data-testid="btn-show-message" data-qa="show-message-btn" class="qa-btn qa-btn-primary" onclick="displaySingleMessage()">
+      Show Message
+    </button>
+
+    <div id="div-single-message-output" data-testid="div-single-message-output" class="qa-card" style="margin-top: 16px; margin-bottom: 0; background: var(--bg-main); padding: 16px;">
+      <span id="label-your-message-title" style="color: var(--text-muted); font-size: 12px; font-weight: 600;">YOUR MESSAGE:</span>
+      <div id="text-user-message-display" data-testid="text-user-message-display" data-qa="message-display-text" style="font-size: 16px; font-weight: 700; color: var(--accent-blue); margin-top: 4px;">
+        (Your message will appear here)
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Two Input Addition Calculator Card -->
+  <div id="card-two-input-sum" data-testid="card-two-input-sum" class="qa-card">
+    <div id="header-two-input" class="qa-card-header">
+      <h3 id="title-two-input" class="qa-card-title">🧮 Two Input Fields (Sum Calculator)</h3>
+      <span class="selector-info-tag">id="btn-get-sum"</span>
+    </div>
+
+    <div id="group-sum-val1" class="form-group">
+      <label id="label-sum-val1" for="input-sum-value1" class="form-label">Enter Value A</label>
+      <input type="number" id="input-sum-value1" data-testid="input-sum-value1" data-qa="sum-val-a" class="form-input" placeholder="e.g. 25" />
+    </div>
+
+    <div id="group-sum-val2" class="form-group">
+      <label id="label-sum-val2" for="input-sum-value2" class="form-label">Enter Value B</label>
+      <input type="number" id="input-sum-value2" data-testid="input-sum-value2" data-qa="sum-val-b" class="form-input" placeholder="e.g. 75" />
+    </div>
+
+    <div id="group-sum-actions" style="display: flex; gap: 12px;">
+      <button type="button" id="btn-get-sum" data-testid="btn-get-sum" data-qa="get-sum-btn" class="qa-btn qa-btn-purple" onclick="calculateSum()">
+        Get Total Sum
+      </button>
+      <button type="button" id="btn-clear-sum" data-testid="btn-clear-sum" data-qa="clear-sum-btn" class="qa-btn qa-btn-secondary" onclick="clearSum()">
+        Clear Values
+      </button>
+    </div>
+
+    <div id="div-sum-output-box" data-testid="div-sum-output-box" class="qa-card" style="margin-top: 16px; margin-bottom: 0; background: var(--bg-main); padding: 16px;">
+      <span id="label-total-sum-title" style="color: var(--text-muted); font-size: 12px; font-weight: 600;">TOTAL SUM RESULT:</span>
+      <div id="text-sum-result-display" data-testid="text-sum-result-display" data-qa="sum-result-text" style="font-size: 20px; font-weight: 800; color: var(--success); margin-top: 4px;">
+        0
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Specialized Fields Card -->
+  <div id="card-specialized-fields" data-testid="card-specialized-fields" class="qa-card" style="grid-column: 1 / -1;">
+    <div id="header-specialized-fields" class="qa-card-header">
+      <h3 id="title-specialized-fields" class="qa-card-title">🔒 Disabled, Readonly & Hidden Field Tests</h3>
+    </div>
+
+    <div id="row-specialized-inputs" class="grid-3">
+      
+      <div id="group-disabled-field" class="form-group">
+        <label id="label-disabled-field" for="input-disabled-demo" class="form-label">Disabled Input Field</label>
+        <input type="text" id="input-disabled-demo" data-testid="input-disabled-demo" data-qa="disabled-input" class="form-input" value="Disabled Field (Non-editable)" disabled />
+        <span class="selector-info-tag">id="input-disabled-demo"</span>
+      </div>
+
+      <div id="group-readonly-field" class="form-group">
+        <label id="label-readonly-field" for="input-readonly-demo" class="form-label">Readonly Input Field</label>
+        <input type="text" id="input-readonly-demo" data-testid="input-readonly-demo" data-qa="readonly-input" class="form-input" value="READONLY-KEY-98421" readonly />
+        <span class="selector-info-tag">id="input-readonly-demo"</span>
+      </div>
+
+      <div id="group-hidden-field-container" class="form-group">
+        <label id="label-hidden-field" class="form-label">Hidden Input Field Test</label>
+        <input type="hidden" id="input-hidden-demo" data-testid="input-hidden-demo" data-qa="hidden-input" name="secret_token" value="SECRET-AUTOMATION-TOKEN-12345" />
+        <div id="div-hidden-field-status" style="display: flex; align-items: center; justify-content: space-between;">
+          <span id="text-hidden-val-preview" style="font-size: 13px; color: var(--text-dim);">Value hidden in DOM</span>
+          <button type="button" id="btn-toggle-hidden-val" data-testid="btn-toggle-hidden-val" class="qa-btn qa-btn-secondary" style="padding: 4px 10px; font-size: 12px;" onclick="toggleHiddenPreview()">
+            Inspect Hidden Value
+          </button>
+        </div>
+        <span class="selector-info-tag">id="input-hidden-demo"</span>
+      </div>
+
+    </div>
+
+    <div id="group-char-counter" class="form-group" style="margin-top: 16px;">
+      <label id="label-char-counter" for="input-char-counter-demo" class="form-label">Character Counter Field (Max 50 Chars)</label>
+      <input type="text" id="input-char-counter-demo" data-testid="input-char-counter-demo" data-qa="char-counter-input" class="form-input" maxlength="50" placeholder="Start typing..." oninput="updateCharCounter(this)" />
+      <div id="div-char-counter-info" style="display: flex; justify-content: space-between; margin-top: 4px;">
+        <span class="selector-info-tag">id="input-char-counter-demo"</span>
+        <span id="text-char-counter-badge" data-testid="text-char-counter-badge" style="font-size: 12px; font-weight: 600; color: var(--accent-blue);">0 / 50 Chars</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function displaySingleMessage() {
+  const msgInput = document.getElementById('input-single-message');
+  const msgDisplay = document.getElementById('text-user-message-display');
+  if (msgInput && msgDisplay) {
+    msgDisplay.textContent = msgInput.value.trim() || 'No message entered';
+    showQAToast('Message updated successfully!', 'success');
+  }
+}
+
+function calculateSum() {
+  const valA = parseFloat(document.getElementById('input-sum-value1')?.value || 0);
+  const valB = parseFloat(document.getElementById('input-sum-value2')?.value || 0);
+  const resultDisplay = document.getElementById('text-sum-result-display');
+  if (resultDisplay) {
+    const total = valA + valB;
+    resultDisplay.textContent = total;
+    showQAToast(`Sum calculated: ${total}`, 'info');
+  }
+}
+
+function clearSum() {
+  document.getElementById('input-sum-value1').value = '';
+  document.getElementById('input-sum-value2').value = '';
+  document.getElementById('text-sum-result-display').textContent = '0';
+}
+
+function toggleHiddenPreview() {
+  const hiddenInput = document.getElementById('input-hidden-demo');
+  const preview = document.getElementById('text-hidden-val-preview');
+  if (hiddenInput && preview) {
+    if (preview.textContent.includes('SECRET')) {
+      preview.textContent = 'Value hidden in DOM';
+    } else {
+      preview.textContent = 'Hidden Value: ' + hiddenInput.value;
+    }
+  }
+}
+
+function updateCharCounter(input) {
+  const counter = document.getElementById('text-char-counter-badge');
+  if (counter) {
+    counter.textContent = `${input.value.length} / 50 Chars`;
+  }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Dropdowns Practice{% endblock %}
+
+{% block content %}
+<div id="div-dropdowns-wrapper" data-testid="dropdowns-wrapper" class="grid-2">
+
+  <!-- Standard & Grouped Dropdowns -->
+  <div id="card-standard-dropdowns" data-testid="card-standard-dropdowns" class="qa-card">
+    <div id="header-standard-dropdowns" class="qa-card-header">
+      <h3 id="title-standard-dropdowns" class="qa-card-title">🔽 Standard & Grouped Selects</h3>
+    </div>
+
+    <!-- Normal Dropdown -->
+    <div id="group-dropdown-standard" class="form-group">
+      <label id="label-dropdown-standard" for="select-standard-framework" class="form-label">Automation Framework</label>
+      <select id="select-standard-framework" data-testid="select-standard-framework" data-qa="standard-framework-select" class="form-select" onchange="handleDropdownChange('text-standard-selected', this.value)">
+        <option id="opt-fw-select" value="">-- Select Framework --</option>
+        <option id="opt-fw-selenium" value="Selenium">Selenium WebDriver</option>
+        <option id="opt-fw-playwright" value="Playwright">Playwright</option>
+        <option id="opt-fw-cypress" value="Cypress">Cypress.io</option>
+        <option id="opt-fw-appium" value="Appium">Appium Mobile</option>
+        <option id="opt-fw-robot" value="Robot">Robot Framework</option>
+      </select>
+      <div id="div-standard-selected-row" style="display: flex; justify-content: space-between; margin-top: 4px;">
+        <span class="selector-info-tag">id="select-standard-framework"</span>
+        <span id="text-standard-selected" data-testid="text-standard-selected" style="font-weight: 600; color: var(--accent-blue);">Selected: None</span>
+      </div>
+    </div>
+
+    <!-- Grouped Dropdown -->
+    <div id="group-dropdown-grouped" class="form-group">
+      <label id="label-dropdown-grouped" for="select-grouped-tools" class="form-label">Testing Tools (Grouped by Language)</label>
+      <select id="select-grouped-tools" data-testid="select-grouped-tools" data-qa="grouped-tools-select" class="form-select">
+        <optgroup id="optgroup-java" label="Java Ecosystem">
+          <option id="opt-java-testng" value="TestNG">TestNG</option>
+          <option id="opt-java-junit" value="JUnit 5">JUnit 5</option>
+          <option id="opt-java-restassured" value="RestAssured">RestAssured</option>
+        </optgroup>
+        <optgroup id="optgroup-python" label="Python Ecosystem">
+          <option id="opt-py-pytest" value="PyTest">PyTest</option>
+          <option id="opt-py-robot" value="Robot Framework">Robot Framework</option>
+          <option id="opt-py-behave" value="Behave BDD">Behave BDD</option>
+        </optgroup>
+        <optgroup id="optgroup-javascript" label="JavaScript Ecosystem">
+          <option id="opt-js-jest" value="Jest">Jest</option>
+          <option id="opt-js-mocha" value="Mocha">Mocha</option>
+          <option id="opt-js-webdriverio" value="WebDriverIO">WebDriverIO</option>
+        </optgroup>
+      </select>
+      <span class="selector-info-tag">id="select-grouped-tools"</span>
+    </div>
+
+  </div>
+
+  <!-- Dependent & Searchable Dropdowns -->
+  <div id="card-advanced-dropdowns" data-testid="card-advanced-dropdowns" class="qa-card">
+    <div id="header-advanced-dropdowns" class="qa-card-header">
+      <h3 id="title-advanced-dropdowns" class="qa-card-title">🌐 Dependent & Async Dropdowns</h3>
+    </div>
+
+    <!-- Dependent Dropdown -->
+    <div id="group-dependent-country" class="form-group">
+      <label id="label-dep-country" for="select-dep-country" class="form-label">Select Country (Triggers State list)</label>
+      <select id="select-dep-country" data-testid="select-dep-country" data-qa="dep-country-select" class="form-select" onchange="updateDependentStates(this.value)">
+        <option id="opt-dep-co-select" value="">-- Select Country --</option>
+        <option id="opt-dep-co-usa" value="USA">United States</option>
+        <option id="opt-dep-co-canada" value="Canada">Canada</option>
+        <option id="opt-dep-co-india" value="India">India</option>
+      </select>
+      <span class="selector-info-tag">id="select-dep-country"</span>
+    </div>
+
+    <div id="group-dependent-state" class="form-group">
+      <label id="label-dep-state" for="select-dep-state" class="form-label">Select State / Region</label>
+      <select id="select-dep-state" data-testid="select-dep-state" data-qa="dep-state-select" class="form-select" disabled>
+        <option id="opt-dep-st-default" value="">-- First Select Country --</option>
+      </select>
+      <span class="selector-info-tag">id="select-dep-state"</span>
+    </div>
+
+    <!-- Async Loading Dropdown -->
+    <div id="group-dropdown-async" class="form-group">
+      <label id="label-dropdown-async" class="form-label">Async Dynamic Data Dropdown</label>
+      <div id="div-async-row" style="display: flex; gap: 12px;">
+        <select id="select-async-options" data-testid="select-async-options" class="form-select">
+          <option id="opt-async-default" value="">-- Click Fetch First --</option>
+        </select>
+        <button type="button" id="btn-fetch-async-data" data-testid="btn-fetch-async-data" class="qa-btn qa-btn-purple" style="white-space: nowrap;" onclick="fetchAsyncDropdownData()">
+          Fetch API Data
+        </button>
+      </div>
+      <span class="selector-info-tag">id="select-async-options"</span>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function handleDropdownChange(targetId, val) {
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.textContent = `Selected: ${val || 'None'}`;
+  }
+}
+
+function updateDependentStates(country) {
+  const stateSelect = document.getElementById('select-dep-state');
+  if (!stateSelect) return;
+
+  stateSelect.innerHTML = '';
+  stateSelect.disabled = false;
+
+  let states = [];
+  if (country === 'USA') states = ['California', 'New York', 'Texas', 'Florida'];
+  else if (country === 'Canada') states = ['Ontario', 'Quebec', 'British Columbia'];
+  else if (country === 'India') states = ['Karnataka', 'Maharashtra', 'Delhi', 'Tamil Nadu'];
+  else {
+    stateSelect.disabled = true;
+    stateSelect.innerHTML = '<option id="opt-dep-st-default" value="">-- First Select Country --</option>';
+    return;
+  }
+
+  states.forEach((st, idx) => {
+    const opt = document.createElement('option');
+    opt.id = `opt-state-dep-${idx}`;
+    opt.value = st;
+    opt.textContent = st;
+    stateSelect.appendChild(opt);
+  });
+
+  showQAToast(`Populated ${states.length} states for ${country}`, 'info');
+}
+
+function fetchAsyncDropdownData() {
+  const select = document.getElementById('select-async-options');
+  const btn = document.getElementById('btn-fetch-async-data');
+  if (!select || !btn) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Fetching...';
+
+  fetch('/api/ajax-search/?q=')
+    .then(res => res.json())
+    .then(data => {
+      select.innerHTML = '<option value="">-- Select Async Option --</option>';
+      data.results.forEach((item, idx) => {
+        const opt = document.createElement('option');
+        opt.id = `opt-async-item-${idx}`;
+        opt.value = item;
+        opt.textContent = item;
+        select.appendChild(opt);
+      });
+      btn.disabled = false;
+      btn.textContent = 'Fetch API Data';
+      showQAToast('Async dropdown loaded with live data!', 'success');
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Fetch API Data';
+    });
+}
+</script>
+{% endblock %}

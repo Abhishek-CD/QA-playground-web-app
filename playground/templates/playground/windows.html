@@ -1,0 +1,66 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Windows & Tabs Practice{% endblock %}
+
+{% block content %}
+<div id="div-windows-wrapper" data-testid="windows-wrapper" class="grid-2">
+
+  <!-- New Window & Tab Triggers Card -->
+  <div id="card-window-triggers" data-testid="card-window-triggers" class="qa-card">
+    <div id="header-window-triggers" class="qa-card-header">
+      <h3 id="title-window-triggers" class="qa-card-title">🪟 Multiple Windows & Tabs</h3>
+    </div>
+
+    <div id="group-window-buttons" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Open New Tab -->
+      <div id="item-open-new-tab-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-open-new-tab" data-testid="btn-open-new-tab" data-qa="open-tab-btn" class="qa-btn qa-btn-primary" onclick="openNewTab()">
+            Open New Browser Tab ↗
+          </button>
+          <span class="selector-info-tag">id="btn-open-new-tab"</span>
+        </div>
+      </div>
+
+      <!-- Open Popup Window -->
+      <div id="item-open-popup-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-open-popup-window" data-testid="btn-open-popup-window" data-qa="open-popup-btn" class="qa-btn qa-btn-purple" onclick="openPopupWindow()">
+            Open Popup Window (500x400) 🪟
+          </button>
+          <span class="selector-info-tag">id="btn-open-popup-window"</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Window Handle Verification Card -->
+  <div id="card-window-verification" data-testid="card-window-verification" class="qa-card">
+    <div id="header-window-verification" class="qa-card-header">
+      <h3 id="title-window-verification" class="qa-card-title">🔍 Window Handle Verification Info</h3>
+    </div>
+
+    <div id="div-window-info-box" class="qa-card" style="background: var(--bg-main); margin-bottom: 0; padding: 16px;">
+      <div id="text-current-window-title" style="font-size: 14px; font-weight: 700; color: var(--accent-blue);">Current Window Domain: localhost:8000</div>
+      <p id="text-window-handle-desc" style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">
+        In Selenium use <code>driver.window_handles</code>. In Playwright use <code>context.pages</code> to switch between window handles.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function openNewTab() {
+  window.open('{% url "home" %}', '_blank');
+  showQAToast('Opened Home in new browser tab!', 'info');
+}
+
+function openPopupWindow() {
+  window.open('{% url "simple_form" %}', 'QAPlaygroundPopup', 'width=600,height=500,scrollbars=yes');
+  showQAToast('Opened Popup Window!', 'success');
+}
+</script>
+{% endblock %}

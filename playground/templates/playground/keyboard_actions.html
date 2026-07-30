@@ -1,0 +1,98 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Keyboard Actions Practice{% endblock %}
+
+{% block content %}
+<div id="div-keyboard-actions-wrapper" data-testid="keyboard-actions-wrapper" class="grid-2">
+
+  <!-- Hotkey Detector Card -->
+  <div id="card-hotkey-detector" data-testid="card-hotkey-detector" class="qa-card">
+    <div id="header-hotkey-detector" class="qa-card-header">
+      <h3 id="title-hotkey-detector" class="qa-card-title">⌨️ Keyboard Hotkey & Key Code Detector</h3>
+    </div>
+
+    <div id="group-hotkey-input" class="form-group">
+      <label id="label-hotkey-target" for="input-hotkey-target" class="form-label">Focus Input & Press Any Key (Enter, Escape, Tab, Arrows, Keys)</label>
+      <input type="text" id="input-hotkey-target" data-testid="input-hotkey-target" data-qa="hotkey-input" class="form-input" placeholder="Click here and press keys..." onkeydown="handleKeyDown(event)" />
+      <span class="selector-info-tag">id="input-hotkey-target"</span>
+    </div>
+
+    <div id="div-pressed-key-display" class="qa-card" style="background: var(--bg-main); margin-bottom: 0; padding: 16px; text-align: center;">
+      <div id="text-pressed-key-code" data-testid="text-pressed-key-code" style="font-size: 28px; font-weight: 800; color: var(--accent-purple);">
+        Key: None
+      </div>
+      <div id="text-pressed-code-info" data-testid="text-pressed-code-info" style="font-size: 13px; color: var(--text-dim); margin-top: 4px;">
+        Code: N/A | KeyCode: N/A
+      </div>
+    </div>
+  </div>
+
+  <!-- Virtual Clipboard & Copy/Paste -->
+  <div id="card-virtual-clipboard" data-testid="card-virtual-clipboard" class="qa-card">
+    <div id="header-virtual-clipboard" class="qa-card-header">
+      <h3 id="title-virtual-clipboard" class="qa-card-title">📋 Copy & Paste Clipboard Tester</h3>
+    </div>
+
+    <div id="group-copy-source" class="form-group">
+      <label id="label-copy-source" for="input-copy-source" class="form-label">Source Field (Press Copy or Ctrl+C)</label>
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="input-copy-source" data-testid="input-copy-source" data-qa="copy-source-input" class="form-input" value="AUTOMATION-KEY-998877" />
+        <button type="button" id="btn-copy-clipboard" data-testid="btn-copy-clipboard" class="qa-btn qa-btn-primary" style="white-space: nowrap;" onclick="copySourceText()">
+          Copy Text
+        </button>
+      </div>
+      <span class="selector-info-tag">id="input-copy-source"</span>
+    </div>
+
+    <div id="group-paste-target" class="form-group" style="margin-top: 20px;">
+      <label id="label-paste-target" for="input-paste-target" class="form-label">Target Paste Field (Ctrl+V)</label>
+      <input type="text" id="input-paste-target" data-testid="input-paste-target" data-qa="paste-target-input" class="form-input" placeholder="Paste copied text here..." />
+      <span class="selector-info-tag">id="input-paste-target"</span>
+    </div>
+
+  </div>
+
+  <!-- Tab Index Sequence Card -->
+  <div id="card-tab-sequence" data-testid="card-tab-sequence" class="qa-card" style="grid-column: 1 / -1;">
+    <div id="header-tab-sequence" class="qa-card-header">
+      <h3 id="title-tab-sequence" class="qa-card-title">⇥ Tab Key Focus Order Sequence</h3>
+    </div>
+
+    <div id="row-tab-inputs" class="grid-3">
+      <div id="group-tab-1" class="form-group">
+        <label id="label-tab-1" for="input-tab-1" class="form-label">TabIndex #1</label>
+        <input type="text" id="input-tab-1" data-testid="input-tab-1" class="form-input" tabindex="1" value="First Focus" />
+      </div>
+      <div id="group-tab-2" class="form-group">
+        <label id="label-tab-2" for="input-tab-2" class="form-label">TabIndex #2</label>
+        <input type="text" id="input-tab-2" data-testid="input-tab-2" class="form-input" tabindex="2" value="Second Focus" />
+      </div>
+      <div id="group-tab-3" class="form-group">
+        <label id="label-tab-3" for="input-tab-3" class="form-label">TabIndex #3</label>
+        <input type="text" id="input-tab-3" data-testid="input-tab-3" class="form-input" tabindex="3" value="Third Focus" />
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function handleKeyDown(e) {
+  const displayKey = document.getElementById('text-pressed-key-code');
+  const displayInfo = document.getElementById('text-pressed-code-info');
+  if (displayKey && displayInfo) {
+    displayKey.textContent = `Key: ${e.key === ' ' ? 'Space' : e.key}`;
+    displayInfo.textContent = `Code: ${e.code} | KeyCode: ${e.keyCode} | Shift: ${e.shiftKey} | Ctrl: ${e.ctrlKey}`;
+  }
+}
+
+function copySourceText() {
+  const source = document.getElementById('input-copy-source');
+  if (source) {
+    source.select();
+    navigator.clipboard.writeText(source.value);
+    showQAToast(`Copied "${source.value}" to clipboard!`, 'success');
+  }
+}
+</script>
+{% endblock %}

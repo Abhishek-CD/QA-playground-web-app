@@ -1,0 +1,89 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Dynamic Elements Practice{% endblock %}
+
+{% block content %}
+<div id="div-dynamic-elements-wrapper" data-testid="dynamic-elements-wrapper" class="grid-2">
+
+  <!-- Delayed Element Loading Card -->
+  <div id="card-delayed-elements" data-testid="card-delayed-elements" class="qa-card">
+    <div id="header-delayed-elements" class="qa-card-header">
+      <h3 id="title-delayed-elements" class="qa-card-title">⏳ Delayed Element Render (Explicit Waits)</h3>
+    </div>
+
+    <p id="text-delayed-desc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+      Click trigger button below to spawn a delayed button element after 3 seconds delay.
+    </p>
+
+    <button type="button" id="btn-trigger-delayed-render" data-testid="btn-trigger-delayed-render" data-qa="trigger-delayed-btn" class="qa-btn qa-btn-primary" onclick="triggerDelayedButton()">
+      Trigger 3-Second Delayed Render
+    </button>
+
+    <div id="div-delayed-button-container" data-testid="div-delayed-button-container" style="margin-top: 20px; min-height: 50px;">
+      <!-- Delayed button renders here -->
+    </div>
+  </div>
+
+  <!-- Dynamic Changing Text & Random Generators -->
+  <div id="card-random-generators" data-testid="card-random-generators" class="qa-card">
+    <div id="header-random-generators" class="qa-card-header">
+      <h3 id="title-random-generators" class="qa-card-title">🎲 Dynamic Text & Color Generator</h3>
+    </div>
+
+    <!-- Random Number Generator -->
+    <div id="group-random-number" class="form-group">
+      <div id="div-random-val-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <button type="button" id="btn-generate-random-num" data-testid="btn-generate-random-num" class="qa-btn qa-btn-purple" onclick="generateRandomNumber()">
+          Generate Random Number
+        </button>
+        <span id="text-random-num-val" data-testid="text-random-num-val" style="font-size: 24px; font-weight: 800; color: var(--accent-purple);">#0000</span>
+      </div>
+      <span class="selector-info-tag">id="btn-generate-random-num"</span>
+    </div>
+
+    <!-- Random Color Box -->
+    <div id="group-random-color" class="form-group" style="margin-top: 20px;">
+      <div id="div-color-box-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <button type="button" id="btn-generate-random-color" data-testid="btn-generate-random-color" class="qa-btn qa-btn-secondary" onclick="generateRandomColor()">
+          Change Box Accent Color
+        </button>
+        <div id="box-random-color-target" data-testid="box-random-color-target" style="width: 40px; height: 40px; border-radius: 8px; background: var(--accent-blue);"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function triggerDelayedButton() {
+  const container = document.getElementById('div-delayed-button-container');
+  const triggerBtn = document.getElementById('btn-trigger-delayed-render');
+  if (!container || !triggerBtn) return;
+
+  triggerBtn.disabled = true;
+  container.innerHTML = '<span id="text-loading-delayed" style="color: var(--warning); font-size: 13px; font-weight: 600;">⏳ Waiting 3 seconds for element to render...</span>';
+
+  setTimeout(() => {
+    container.innerHTML = `
+      <button type="button" id="btn-delayed-appear-target" data-testid="btn-delayed-appear-target" data-qa="delayed-target-btn" class="qa-btn qa-btn-success" onclick="showQAToast('Delayed Button Clicked!', 'success')">
+        ✅ Delayed Button Successfully Rendered!
+      </button>
+      <div style="margin-top:4px;"><span class="selector-info-tag">id="btn-delayed-appear-target"</span></div>
+    `;
+    triggerBtn.disabled = false;
+  }, 3000);
+}
+
+function generateRandomNumber() {
+  const num = Math.floor(1000 + Math.random() * 9000);
+  document.getElementById('text-random-num-val').textContent = `#${num}`;
+}
+
+function generateRandomColor() {
+  const colors = ['#3B82F6', '#8B5CF6', '#22C55E', '#F59E0B', '#EF4444', '#EC4899'];
+  const chosen = colors[Math.floor(Math.random() * colors.length)];
+  document.getElementById('box-random-color-target').style.backgroundColor = chosen;
+}
+</script>
+{% endblock %}

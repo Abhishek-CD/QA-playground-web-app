@@ -1,0 +1,86 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Downloads Section Practice{% endblock %}
+
+{% block content %}
+<div id="div-downloads-wrapper" data-testid="downloads-wrapper" class="grid-2">
+
+  <!-- Download File Buttons Card -->
+  <div id="card-download-triggers" data-testid="card-download-triggers" class="qa-card">
+    <div id="header-download-triggers" class="qa-card-header">
+      <h3 id="title-download-triggers" class="qa-card-title">📥 Instant File Downloads</h3>
+    </div>
+
+    <div id="group-download-buttons" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Download CSV -->
+      <div id="item-download-csv-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <a id="btn-download-csv" data-testid="btn-download-csv" data-qa="download-csv-btn" href="/api/download/csv/" class="qa-btn qa-btn-primary">
+            📥 Download CSV Data File
+          </a>
+          <span class="selector-info-tag">id="btn-download-csv"</span>
+        </div>
+        <span id="text-csv-size" style="font-size: 12px; color: var(--text-dim);">File: .csv (1.2 KB)</span>
+      </div>
+
+      <!-- Download JSON -->
+      <div id="item-download-json-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <a id="btn-download-json" data-testid="btn-download-json" data-qa="download-json-btn" href="/api/download/json/" class="qa-btn qa-btn-purple">
+            📥 Download JSON Config File
+          </a>
+          <span class="selector-info-tag">id="btn-download-json"</span>
+        </div>
+        <span id="text-json-size" style="font-size: 12px; color: var(--text-dim);">File: .json (2.4 KB)</span>
+      </div>
+
+      <!-- Download TXT -->
+      <div id="item-download-txt-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <a id="btn-download-txt" data-testid="btn-download-txt" data-qa="download-txt-btn" href="/api/download/txt/" class="qa-btn qa-btn-secondary">
+            📄 Download Test Log (.txt)
+          </a>
+          <span class="selector-info-tag">id="btn-download-txt"</span>
+        </div>
+        <span id="text-txt-size" style="font-size: 12px; color: var(--text-dim);">File: .txt (0.8 KB)</span>
+      </div>
+
+      <!-- Download PDF -->
+      <div id="item-download-pdf-row" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <a id="btn-download-pdf" data-testid="btn-download-pdf" data-qa="download-pdf-btn" href="/api/download/pdf/" class="qa-btn qa-btn-success">
+            📕 Download Test Report (.pdf)
+          </a>
+          <span class="selector-info-tag">id="btn-download-pdf"</span>
+        </div>
+        <span id="text-pdf-size" style="font-size: 12px; color: var(--text-dim);">File: .pdf (14.5 KB)</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Generated Report Preview Card -->
+  <div id="card-download-preview" data-testid="card-download-preview" class="qa-card">
+    <div id="header-download-preview" class="qa-card-header">
+      <h3 id="title-download-preview" class="qa-card-title">🔍 Generated Report Content Preview</h3>
+    </div>
+
+    <pre id="pre-download-content-preview" data-testid="pre-download-content-preview" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 16px; border-radius: 8px; font-family: var(--font-mono); font-size: 12px; color: var(--accent-blue); overflow-x: auto; white-space: pre-wrap;">
+QA Playground Automation Report
+=================================
+Execution Timestamp: 2026-07-27 15:00:00
+Total Test Cases: 150
+Passed: 148
+Failed: 2 (Simulated)
+Selector Integrity: 100% Unique IDs Verified
+Frameworks: Selenium, Playwright, Cypress, WebDriverIO
+    </pre>
+
+    <button type="button" id="btn-refresh-preview" data-testid="btn-refresh-preview" class="qa-btn qa-btn-secondary" style="margin-top: 12px;" onclick="showQAToast('Log preview refreshed.', 'info')">
+      Refresh Log Preview
+    </button>
+  </div>
+
+</div>
+{% endblock %}

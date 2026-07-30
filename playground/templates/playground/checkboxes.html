@@ -1,0 +1,107 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Checkboxes Practice{% endblock %}
+
+{% block content %}
+<div id="div-checkboxes-wrapper" data-testid="checkboxes-wrapper" class="grid-2">
+
+  <!-- Single & Disabled Checkboxes Card -->
+  <div id="card-single-checkboxes" data-testid="card-single-checkboxes" class="qa-card">
+    <div id="header-single-checkboxes" class="qa-card-header">
+      <h3 id="title-single-checkboxes" class="qa-card-title">☑️ Single & State Checkboxes</h3>
+    </div>
+
+    <!-- Single Checkbox -->
+    <div id="group-single-checkbox" class="form-group">
+      <label id="label-single-checkbox" style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 15px;">
+        <input type="checkbox" id="check-single-age" data-testid="check-single-age" data-qa="single-age-checkbox" onchange="toggleSingleCheckStatus(this)" />
+        <span id="span-single-age-text">Click on this single checkbox (18+ Age Verification)</span>
+      </label>
+      <div id="div-single-check-status-row" style="display: flex; justify-content: space-between; margin-top: 6px;">
+        <span class="selector-info-tag">id="check-single-age"</span>
+        <span id="text-single-check-status" data-testid="text-single-check-status" style="font-weight: 700; color: var(--danger);">Status: Unchecked</span>
+      </div>
+    </div>
+
+    <!-- Disabled Checkbox -->
+    <div id="group-disabled-checkbox" class="form-group" style="margin-top: 24px;">
+      <label id="label-disabled-checkbox" style="display: flex; align-items: center; gap: 10px; cursor: not-allowed; opacity: 0.6; font-size: 15px;">
+        <input type="checkbox" id="check-disabled-demo" data-testid="check-disabled-demo" data-qa="disabled-checkbox" disabled checked />
+        <span id="span-disabled-check-text">Disabled Pre-checked Checkbox</span>
+      </label>
+      <span class="selector-info-tag">id="check-disabled-demo"</span>
+    </div>
+
+  </div>
+
+  <!-- Multi Checkbox & Bulk Actions Card -->
+  <div id="card-multi-checkboxes" data-testid="card-multi-checkboxes" class="qa-card">
+    <div id="header-multi-checkboxes" class="qa-card-header">
+      <h3 id="title-multi-checkboxes" class="qa-card-title">☑️ Multiple Checkboxes & Check All</h3>
+      <span id="badge-checked-count" data-testid="badge-checked-count" class="qa-badge qa-badge-purple">2 Checked</span>
+    </div>
+
+    <div id="group-bulk-check-buttons" style="display: flex; gap: 12px; margin-bottom: 16px;">
+      <button type="button" id="btn-check-all-boxes" data-testid="btn-check-all-boxes" data-qa="check-all-btn" class="qa-btn qa-btn-primary" onclick="setAllCheckboxes(true)">
+        Check All
+      </button>
+      <button type="button" id="btn-uncheck-all-boxes" data-testid="btn-uncheck-all-boxes" data-qa="uncheck-all-btn" class="qa-btn qa-btn-secondary" onclick="setAllCheckboxes(false)">
+        Uncheck All
+      </button>
+    </div>
+
+    <div id="group-multi-checkbox-list" style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <label id="label-multi-option-1" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <input type="checkbox" id="check-option-1" data-testid="check-option-1" data-qa="multi-check-1" class="multi-check-item" value="Option 1" checked onchange="updateCheckedCount()" />
+        <span id="span-option-1-text">Option 1: Web Automation (Selenium/Playwright)</span>
+        <span class="selector-info-tag">id="check-option-1"</span>
+      </label>
+
+      <label id="label-multi-option-2" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <input type="checkbox" id="check-option-2" data-testid="check-option-2" data-qa="multi-check-2" class="multi-check-item" value="Option 2" checked onchange="updateCheckedCount()" />
+        <span id="span-option-2-text">Option 2: API Testing (RestAssured/Postman)</span>
+        <span class="selector-info-tag">id="check-option-2"</span>
+      </label>
+
+      <label id="label-multi-option-3" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <input type="checkbox" id="check-option-3" data-testid="check-option-3" data-qa="multi-check-3" class="multi-check-item" value="Option 3" onchange="updateCheckedCount()" />
+        <span id="span-option-3-text">Option 3: Performance Testing (JMeter/K6)</span>
+        <span class="selector-info-tag">id="check-option-3"</span>
+      </label>
+
+      <label id="label-multi-option-4" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <input type="checkbox" id="check-option-4" data-testid="check-option-4" data-qa="multi-check-4" class="multi-check-item" value="Option 4" onchange="updateCheckedCount()" />
+        <span id="span-option-4-text">Option 4: Mobile Automation (Appium)</span>
+        <span class="selector-info-tag">id="check-option-4"</span>
+      </label>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleSingleCheckStatus(checkbox) {
+  const status = document.getElementById('text-single-check-status');
+  if (status) {
+    status.textContent = checkbox.checked ? "Status: Checked (Verified)" : "Status: Unchecked";
+    status.style.color = checkbox.checked ? "#22C55E" : "#EF4444";
+  }
+}
+
+function setAllCheckboxes(state) {
+  const boxes = document.querySelectorAll('.multi-check-item');
+  boxes.forEach(cb => cb.checked = state);
+  updateCheckedCount();
+}
+
+function updateCheckedCount() {
+  const checked = document.querySelectorAll('.multi-check-item:checked');
+  const badge = document.getElementById('badge-checked-count');
+  if (badge) {
+    badge.textContent = `${checked.length} Checked`;
+  }
+}
+</script>
+{% endblock %}

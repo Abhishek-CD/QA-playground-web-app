@@ -1,0 +1,95 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Infinite Scroll Practice{% endblock %}
+
+{% block content %}
+<div id="div-infinite-scroll-wrapper" data-testid="infinite-scroll-wrapper">
+
+  <div id="card-infinite-scroll-container" data-testid="card-infinite-scroll-container" class="qa-card">
+    <div id="header-infinite-scroll" class="qa-card-header">
+      <h3 id="title-infinite-scroll" class="qa-card-title">📜 Infinite Scroll Feed</h3>
+      <span id="badge-page-loaded-count" data-testid="badge-page-loaded-count" class="qa-badge qa-badge-blue">Page 1 Loaded</span>
+    </div>
+
+    <p id="text-scroll-instruction" style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+      Scroll down inside the scrollable container below to dynamically fetch and append new items.
+    </p>
+
+    <!-- Scrollable Feed Area -->
+    <div id="div-infinite-scroll-box" data-testid="div-infinite-scroll-box" data-qa="infinite-feed-container" style="height: 420px; overflow-y: auto; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 16px;" onscroll="handleFeedScroll(this)">
+      <div id="div-feed-items-container" data-testid="div-feed-items-container">
+        <!-- Initial Items loaded via JS -->
+      </div>
+      
+      <div id="div-infinite-loader-indicator" data-testid="div-infinite-loader-indicator" style="text-align: center; padding: 16px; display: none; color: var(--accent-blue); font-weight: 600;">
+        ⏳ Loading more practice items...
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadMoreFeedItems();
+});
+
+function handleFeedScroll(container) {
+  if (isLoading || !hasMore) return;
+  if (container.scrollTop + container.clientHeight >= container.scrollHeight - 50) {
+    loadMoreFeedItems();
+  }
+}
+
+function loadMoreFeedItems() {
+  if (isLoading || !hasMore) return;
+  isLoading = true;
+
+  const loader = document.getElementById('div-infinite-loader-indicator');
+  const feedContainer = document.getElementById('div-feed-items-container');
+  const pageBadge = document.getElementById('badge-page-loaded-count');
+
+  if (loader) loader.style.display = 'block';
+
+  fetch(`/api/infinite-feed/?page=${currentPage}`)
+    .then(res => res.json())
+    .then(data => {
+      hasMore = data.has_more;
+      data.items.forEach(item => {
+        const card = document.createElement('div');
+        card.id = `card-feed-item-${item.id}`;
+        card.setAttribute('data-testid', `card-feed-item-${item.id}`);
+        card.className = 'qa-card';
+        card.style.cssText = 'margin-bottom: 0; background: var(--bg-card);';
+
+        card.innerHTML = `
+          <div id="feed-header-${item.id}" style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span id="badge-feed-cat-${item.id}" class="qa-badge qa-badge-purple">${item.category}</span>
+            <span id="text-feed-time-${item.id}" style="font-size:12px; color:#9CA3AF;">${item.timestamp}</span>
+          </div>
+          <h4 id="heading-feed-title-${item.id}" style="font-size:15px; font-weight:700; color:#fff;">${item.title}</h4>
+          <p id="text-feed-content-${item.id}" style="font-size:13px; color:#9CA3AF; margin-top:4px;">${item.content}</p>
+          <div id="feed-footer-${item.id}" style="display:flex; justify-content:space-between; margin-top:10px; pt:8px; border-top:1px solid #1F2937; font-size:12px;">
+            <span id="text-feed-author-${item.id}" style="color:#3B82F6;">By ${item.author}</span>
+            <span id="text-feed-likes-${item.id}" style="color:#22C55E;">❤️ ${item.likes} Likes</span>
+          </div>
+        `;
+        feedContainer.appendChild(card);
+      });
+
+      if (pageBadge) pageBadge.textContent = `Page ${currentPage} Loaded`;
+      currentPage++;
+      isLoading = false;
+      if (loader) loader.style.display = 'none';
+    })
+    .catch(() => {
+      isLoading = false;
+      if (loader) loader.style.display = 'none';
+    });
+}
+</script>
+{% endblock %}

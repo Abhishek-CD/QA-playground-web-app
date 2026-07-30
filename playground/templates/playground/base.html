@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html id="html-root-doc" lang="en">
+<head id="head-root">
+  <meta id="meta-charset" charset="UTF-8">
+  <meta id="meta-viewport" name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta id="meta-description" name="description" content="QA Playground - Modern Web Automation Testing Practice Platform for Selenium, Playwright, Cypress, and WebDriverIO.">
+  <title id="head-title">Just QA - Playgroung</title>
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/favicon.png' %}">
+
+  <!-- Favicon & Stylesheets -->
+  <link id="link-css-main" rel="stylesheet" href="{% static 'css/main.css' %}">
+  
+  
+  {% block extra_css %}{% endblock %}
+</head>
+<body id="body-main-app">
+  <div id="app-container" data-testid="app-container" data-qa="qa-app-wrapper">
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar-main" data-testid="sidebar-main" data-qa="sidebar-navigation">
+      <div id="sidebar-header" data-testid="sidebar-header">
+      <div id="sidebar-logo-icon" data-testid="sidebar-logo">
+          <img src="{% static 'images/favicon.png' %}" alt="Just QA Logo" class="logo-icon">
+      </div>
+        <div id="sidebar-title-container">
+          <span id="sidebar-title-text" data-testid="sidebar-title">Just QA <span id="text_playground">Playground</span></span>
+          <span id="sidebar-subtitle-tag" data-testid="sidebar-subtitle">Automation Lab</span>
+        </div>
+      </div>
+
+      <div id="sidebar-search-box" data-testid="sidebar-search-container">
+        <input type="text" id="sidebar-search-input" data-testid="sidebar-search-input" data-qa="sidebar-filter-input" placeholder="Search modules..." />
+      </div>
+
+      <ul id="sidebar-nav-list" data-testid="sidebar-nav-list">
+        <li id="sidebar-cat-main" class="sidebar-category-header">Main Dashboard</li>
+        <li id="sidebar-item-home" class="sidebar-nav-item">
+          <a id="nav-link-home" data-testid="nav-link-home" data-qa="nav-home" href="{% url 'home' %}" class="sidebar-nav-link {% if active_page == 'home' %}active{% endif %}">
+            <span id="icon-nav-home">🏠</span> Home
+          </a>
+        </li>
+        <li id="sidebar-item-ecommerce" class="sidebar-nav-item">
+          <a id="nav-link-ecommerce" data-testid="nav-link-ecommerce" data-qa="nav-ecommerce" href="{% url 'ecommerce' %}" class="sidebar-nav-link {% if active_page == 'ecommerce' %}active{% endif %}">
+            <span id="icon-nav-ecommerce">🛍️</span> E-Commerce App
+            <span id="badge-nav-ecom" class="sidebar-nav-badge">DEMO</span>
+          </a>
+        </li>
+
+        <li id="sidebar-cat-forms" class="sidebar-category-header">Forms & Inputs</li>
+        <li id="sidebar-item-login" class="sidebar-nav-item">
+          <a id="nav-link-login" data-testid="nav-link-login" data-qa="nav-login" href="{% url 'login' %}" class="sidebar-nav-link {% if active_page == 'login' %}active{% endif %}">
+            <span id="icon-nav-login">🔑</span> Login Page
+          </a>
+        </li>
+        <li id="sidebar-item-register" class="sidebar-nav-item">
+          <a id="nav-link-register" data-testid="nav-link-register" data-qa="nav-register" href="{% url 'register' %}" class="sidebar-nav-link {% if active_page == 'register' %}active{% endif %}">
+            <span id="icon-nav-register">📋</span> Registration Form
+          </a>
+        </li>
+        <li id="sidebar-item-simple-form" class="sidebar-nav-item">
+          <a id="nav-link-simple-form" data-testid="nav-link-simple-form" data-qa="nav-simple-form" href="{% url 'simple_form' %}" class="sidebar-nav-link {% if active_page == 'simple_form' %}active{% endif %}">
+            <span id="icon-nav-simple-form">📝</span> Simple Form Demo
+          </a>
+        </li>
+        <li id="sidebar-item-checkboxes" class="sidebar-nav-item">
+          <a id="nav-link-checkboxes" data-testid="nav-link-checkboxes" data-qa="nav-checkboxes" href="{% url 'checkboxes' %}" class="sidebar-nav-link {% if active_page == 'checkboxes' %}active{% endif %}">
+            <span id="icon-nav-checkboxes">☑️</span> Checkboxes
+          </a>
+        </li>
+        <li id="sidebar-item-radio-buttons" class="sidebar-nav-item">
+          <a id="nav-link-radio-buttons" data-testid="nav-link-radio-buttons" data-qa="nav-radios" href="{% url 'radio_buttons' %}" class="sidebar-nav-link {% if active_page == 'radio_buttons' %}active{% endif %}">
+            <span id="icon-nav-radio-buttons">🔘</span> Radio Buttons
+          </a>
+        </li>
+        <li id="sidebar-item-dropdowns" class="sidebar-nav-item">
+          <a id="nav-link-dropdowns" data-testid="nav-link-dropdowns" data-qa="nav-dropdowns" href="{% url 'dropdowns' %}" class="sidebar-nav-link {% if active_page == 'dropdowns' %}active{% endif %}">
+            <span id="icon-nav-dropdowns">🔽</span> Dropdowns
+          </a>
+        </li>
+        <li id="sidebar-item-date-pickers" class="sidebar-nav-item">
+          <a id="nav-link-date-pickers" data-testid="nav-link-date-pickers" data-qa="nav-date-pickers" href="{% url 'date_pickers' %}" class="sidebar-nav-link {% if active_page == 'date_pickers' %}active{% endif %}">
+            <span id="icon-nav-date-pickers">📅</span> Date Pickers
+          </a>
+        </li>
+
+        <li id="sidebar-cat-elements" class="sidebar-category-header">UI Elements</li>
+        <li id="sidebar-item-buttons" class="sidebar-nav-item">
+          <a id="nav-link-buttons" data-testid="nav-link-buttons" data-qa="nav-buttons" href="{% url 'buttons' %}" class="sidebar-nav-link {% if active_page == 'buttons' %}active{% endif %}">
+            <span id="icon-nav-buttons">🔘</span> Buttons Playground
+          </a>
+        </li>
+        <li id="sidebar-item-alerts" class="sidebar-nav-item">
+          <a id="nav-link-alerts" data-testid="nav-link-alerts" data-qa="nav-alerts" href="{% url 'alerts' %}" class="sidebar-nav-link {% if active_page == 'alerts' %}active{% endif %}">
+            <span id="icon-nav-alerts">🔔</span> Alerts & Toasts
+          </a>
+        </li>
+        <li id="sidebar-item-tables" class="sidebar-nav-item">
+          <a id="nav-link-tables" data-testid="nav-link-tables" data-qa="nav-tables" href="{% url 'tables' %}" class="sidebar-nav-link {% if active_page == 'tables' %}active{% endif %}">
+            <span id="icon-nav-tables">📊</span> Data Tables
+          </a>
+        </li>
+        <li id="sidebar-item-progress-bars" class="sidebar-nav-item">
+          <a id="nav-link-progress-bars" data-testid="nav-link-progress-bars" data-qa="nav-progress-bars" href="{% url 'progress_bars' %}" class="sidebar-nav-link {% if active_page == 'progress_bars' %}active{% endif %}">
+            <span id="icon-nav-progress-bars">⏳</span> Progress Bars
+          </a>
+        </li>
+
+        <li id="sidebar-cat-interactions" class="sidebar-category-header">Interactions</li>
+        <li id="sidebar-item-drag-drop" class="sidebar-nav-item">
+          <a id="nav-link-drag-drop" data-testid="nav-link-drag-drop" data-qa="nav-drag-drop" href="{% url 'drag_drop' %}" class="sidebar-nav-link {% if active_page == 'drag_drop' %}active{% endif %}">
+            <span id="icon-nav-drag-drop">🎯</span> Drag & Drop
+          </a>
+        </li>
+        <li id="sidebar-item-mouse-actions" class="sidebar-nav-item">
+          <a id="nav-link-mouse-actions" data-testid="nav-link-mouse-actions" data-qa="nav-mouse-actions" href="{% url 'mouse_actions' %}" class="sidebar-nav-link {% if active_page == 'mouse_actions' %}active{% endif %}">
+            <span id="icon-nav-mouse-actions">🖱️</span> Mouse Actions
+          </a>
+        </li>
+        <li id="sidebar-item-keyboard-actions" class="sidebar-nav-item">
+          <a id="nav-link-keyboard-actions" data-testid="nav-link-keyboard-actions" data-qa="nav-keyboard-actions" href="{% url 'keyboard_actions' %}" class="sidebar-nav-link {% if active_page == 'keyboard_actions' %}active{% endif %}">
+            <span id="icon-nav-keyboard-actions">⌨️</span> Keyboard Actions
+          </a>
+        </li>
+        <li id="sidebar-item-file-upload" class="sidebar-nav-item">
+          <a id="nav-link-file-upload" data-testid="nav-link-file-upload" data-qa="nav-file-upload" href="{% url 'file_upload' %}" class="sidebar-nav-link {% if active_page == 'file_upload' %}active{% endif %}">
+            <span id="icon-nav-file-upload">📤</span> File Upload
+          </a>
+        </li>
+        <li id="sidebar-item-downloads" class="sidebar-nav-item">
+          <a id="nav-link-downloads" data-testid="nav-link-downloads" data-qa="nav-downloads" href="{% url 'downloads' %}" class="sidebar-nav-link {% if active_page == 'downloads' %}active{% endif %}">
+            <span id="icon-nav-downloads">📥</span> Downloads
+          </a>
+        </li>
+
+        <li id="sidebar-cat-advanced" class="sidebar-category-header">Advanced Practice</li>
+        <li id="sidebar-item-frames" class="sidebar-nav-item">
+          <a id="nav-link-frames" data-testid="nav-link-frames" data-qa="nav-frames" href="{% url 'frames' %}" class="sidebar-nav-link {% if active_page == 'frames' %}active{% endif %}">
+            <span id="icon-nav-frames">🖼️</span> IFrames
+          </a>
+        </li>
+        <li id="sidebar-item-windows" class="sidebar-nav-item">
+          <a id="nav-link-windows" data-testid="nav-link-windows" data-qa="nav-windows" href="{% url 'windows' %}" class="sidebar-nav-link {% if active_page == 'windows' %}active{% endif %}">
+            <span id="icon-nav-windows">🪟</span> Windows & Tabs
+          </a>
+        </li>
+        <li id="sidebar-item-authentication" class="sidebar-nav-item">
+          <a id="nav-link-authentication" data-testid="nav-link-authentication" data-qa="nav-authentication" href="{% url 'authentication' %}" class="sidebar-nav-link {% if active_page == 'authentication' %}active{% endif %}">
+            <span id="icon-nav-authentication">🔐</span> Auth & Roles
+          </a>
+        </li>
+        <li id="sidebar-item-dynamic-elements" class="sidebar-nav-item">
+          <a id="nav-link-dynamic-elements" data-testid="nav-link-dynamic-elements" data-qa="nav-dynamic-elements" href="{% url 'dynamic_elements' %}" class="sidebar-nav-link {% if active_page == 'dynamic_elements' %}active{% endif %}">
+            <span id="icon-nav-dynamic-elements">⚡</span> Dynamic Elements
+          </a>
+        </li>
+        <li id="sidebar-item-ajax" class="sidebar-nav-item">
+          <a id="nav-link-ajax" data-testid="nav-link-ajax" data-qa="nav-ajax" href="{% url 'ajax' %}" class="sidebar-nav-link {% if active_page == 'ajax' %}active{% endif %}">
+            <span id="icon-nav-ajax">🔄</span> AJAX & Async
+          </a>
+        </li>
+        <li id="sidebar-item-shadow-dom" class="sidebar-nav-item">
+          <a id="nav-link-shadow-dom" data-testid="nav-link-shadow-dom" data-qa="nav-shadow-dom" href="{% url 'shadow_dom' %}" class="sidebar-nav-link {% if active_page == 'shadow_dom' %}active{% endif %}">
+            <span id="icon-nav-shadow-dom">👻</span> Shadow DOM
+          </a>
+        </li>
+        <li id="sidebar-item-infinite-scroll" class="sidebar-nav-item">
+          <a id="nav-link-infinite-scroll" data-testid="nav-link-infinite-scroll" data-qa="nav-infinite-scroll" href="{% url 'infinite_scroll' %}" class="sidebar-nav-link {% if active_page == 'infinite_scroll' %}active{% endif %}">
+            <span id="icon-nav-infinite-scroll">📜</span> Infinite Scroll
+          </a>
+        </li>
+        <li id="sidebar-item-api-playground" class="sidebar-nav-item">
+          <a id="nav-link-api-playground" data-testid="nav-link-api-playground" data-qa="nav-api-playground" href="{% url 'api_playground' %}" class="sidebar-nav-link {% if active_page == 'api_playground' %}active{% endif %}">
+            <span id="icon-nav-api-playground">🌐</span> API Playground
+          </a>
+        </li>
+        <li id="sidebar-item-charts" class="sidebar-nav-item">
+          <a id="nav-link-charts" data-testid="nav-link-charts" data-qa="nav-charts" href="{% url 'charts' %}" class="sidebar-nav-link {% if active_page == 'charts' %}active{% endif %}">
+            <span id="icon-nav-charts">📈</span> Charts
+          </a>
+        </li>
+        <li id="sidebar-item-automation-challenges" class="sidebar-nav-item">
+          <a id="nav-link-automation-challenges" data-testid="nav-link-automation-challenges" data-qa="nav-challenges" href="{% url 'automation_challenges' %}" class="sidebar-nav-link {% if active_page == 'automation_challenges' %}active{% endif %}">
+            <span id="icon-nav-automation-challenges">🔥</span> Automation Challenges
+          </a>
+        </li>
+
+        <li id="sidebar-cat-info" class="sidebar-category-header">Reference</li>
+        <li id="sidebar-item-documentation" class="sidebar-nav-item">
+          <a id="nav-link-documentation" data-testid="nav-link-documentation" data-qa="nav-docs" href="{% url 'documentation' %}" class="sidebar-nav-link {% if active_page == 'documentation' %}active{% endif %}">
+            <span id="icon-nav-documentation">📖</span> Documentation
+          </a>
+        </li>
+      </ul>
+
+      <div id="sidebar-footer" data-testid="sidebar-footer">
+        <span id="text-sidebar-version" data-testid="sidebar-version">v1.0.0</span>
+        <span id="text-sidebar-status" data-testid="sidebar-system-status">by Abhishek C D</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-content-wrapper" data-testid="main-content-wrapper">
+      
+      <!-- Topbar Header -->
+      <header id="topbar-header" data-testid="topbar-header" data-qa="topbar-header">
+        <div id="topbar-left-section" data-testid="topbar-left-section">
+          <button id="btn-toggle-sidebar" data-testid="btn-toggle-sidebar" aria-label="Toggle Sidebar">☰</button>
+          <div id="topbar-page-breadcrumb" data-testid="topbar-breadcrumb">
+            <span id="breadcrumb-home">QA Playground</span> /
+            <span id="topbar-page-current" data-testid="topbar-current-page-title">{% block page_title %}Dashboard{% endblock %}</span>
+          </div>
+        </div>
+
+        <div id="topbar-right-section" data-testid="topbar-right-section">
+          <div id="badge-automation-status" data-testid="badge-automation-status" data-qa="status-indicator">
+            <div id="status-dot-indicator"></div> Automation Ready
+          </div>
+          <div id="badge-element-count" data-testid="badge-element-count" data-qa="element-count">
+            150+ Elements
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Container -->
+      <main id="page-container" data-testid="page-container" data-qa="page-content">
+        {% block content %}{% endblock %}
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Global JavaScript Core -->
+  <script id="script-main-js" src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,123 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}AJAX & Async Practice{% endblock %}
+
+{% block content %}
+<div id="div-ajax-wrapper" data-testid="ajax-wrapper" class="grid-2">
+
+  <!-- Live Search Auto-Complete Card -->
+  <div id="card-ajax-search" data-testid="card-ajax-search" class="qa-card">
+    <div id="header-ajax-search" class="qa-card-header">
+      <h3 id="title-ajax-search" class="qa-card-title">🔍 Live AJAX Search & Latency Selector</h3>
+    </div>
+
+    <!-- Network Latency Selector -->
+    <div id="group-ajax-latency" class="form-group">
+      <label id="label-ajax-latency" for="select-network-latency" class="form-label">Simulate Network Speed / Latency</label>
+      <select id="select-network-latency" data-testid="select-network-latency" class="form-select">
+        <option id="opt-lat-fast" value="0.2">Fast Connection (200ms)</option>
+        <option id="opt-lat-3g" value="1.5">Slow 3G Simulation (1.5s)</option>
+        <option id="opt-lat-heavy" value="3.0">Heavy Delay (3.0s)</option>
+      </select>
+      <span class="selector-info-tag">id="select-network-latency"</span>
+    </div>
+
+    <!-- Search Input -->
+    <div id="group-ajax-search-input" class="form-group" style="margin-top: 20px;">
+      <label id="label-ajax-query" for="input-ajax-query" class="form-label">Search Framework (Type 'Playwright' or 'Selenium')</label>
+      <input type="text" id="input-ajax-query" data-testid="input-ajax-query" data-qa="ajax-search-input" class="form-input" placeholder="Type framework name..." oninput="handleAjaxSearch(this.value)" />
+      <span class="selector-info-tag">id="input-ajax-query"</span>
+    </div>
+
+    <!-- Live Results Container -->
+    <div id="div-ajax-results-box" class="qa-card" style="background: var(--bg-main); margin-bottom: 0; padding: 16px; min-height: 120px;">
+      <div id="text-ajax-status-msg" style="font-size: 13px; color: var(--text-dim);">Start typing above to trigger live AJAX search.</div>
+      <ul id="ul-ajax-results-list" data-testid="ul-ajax-results-list" style="list-style: none; margin-top: 8px;"></ul>
+    </div>
+  </div>
+
+  <!-- Skeleton Loader Card -->
+  <div id="card-skeleton-loader" data-testid="card-skeleton-loader" class="qa-card">
+    <div id="header-skeleton-loader" class="qa-card-header">
+      <h3 id="title-skeleton-loader" class="qa-card-title">💀 Skeleton Loader Simulation</h3>
+    </div>
+
+    <button type="button" id="btn-trigger-skeleton" data-testid="btn-trigger-skeleton" class="qa-btn qa-btn-purple" style="margin-bottom: 20px;" onclick="triggerSkeletonLoading()">
+      Simulate Content Loading
+    </button>
+
+    <div id="div-skeleton-container" data-testid="div-skeleton-container">
+      <div id="skeleton-item-1" style="height: 20px; width: 70%; background: var(--bg-card-hover); border-radius: 4px; margin-bottom: 12px; animation: skeletonPulse 1.5s infinite ease-in-out;"></div>
+      <div id="skeleton-item-2" style="height: 14px; width: 90%; background: var(--bg-card-hover); border-radius: 4px; margin-bottom: 8px; animation: skeletonPulse 1.5s infinite ease-in-out;"></div>
+      <div id="skeleton-item-3" style="height: 14px; width: 50%; background: var(--bg-card-hover); border-radius: 4px; animation: skeletonPulse 1.5s infinite ease-in-out;"></div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+@keyframes skeletonPulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; }
+}
+</style>
+
+<script>
+let ajaxTimer = null;
+
+function handleAjaxSearch(query) {
+  const status = document.getElementById('text-ajax-status-msg');
+  const list = document.getElementById('ul-ajax-results-list');
+  const latency = document.getElementById('select-network-latency')?.value || 0.2;
+
+  clearTimeout(ajaxTimer);
+  if (!query.trim()) {
+    if (status) status.textContent = 'Start typing above to trigger live AJAX search.';
+    if (list) list.innerHTML = '';
+    return;
+  }
+
+  if (status) status.textContent = '⏳ Sending AJAX request...';
+
+  ajaxTimer = setTimeout(() => {
+    fetch(`/api/ajax-search/?q=${encodeURIComponent(query)}&latency=${latency}`)
+      .then(res => res.json())
+      .then(data => {
+        if (status) status.textContent = `Found ${data.results.length} result(s) for "${query}"`;
+        if (list) {
+          list.innerHTML = '';
+          data.results.forEach((resItem, idx) => {
+            const li = document.createElement('li');
+            li.id = `li-ajax-res-${idx}`;
+            li.style.cssText = 'padding:8px; border-bottom:1px solid #1F2937; color:#3B82F6; font-weight:600;';
+            li.textContent = `Result #${idx + 1}: ${resItem}`;
+            list.appendChild(li);
+          });
+        }
+      });
+  }, 300);
+}
+
+function triggerSkeletonLoading() {
+  const container = document.getElementById('div-skeleton-container');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div id="skeleton-loader-active">
+      <div style="height:20px; width:70%; background:#1F2937; border-radius:4px; margin-bottom:12px; animation:skeletonPulse 1.5s infinite;"></div>
+      <div style="height:14px; width:90%; background:#1F2937; border-radius:4px; margin-bottom:8px; animation:skeletonPulse 1.5s infinite;"></div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    container.innerHTML = `
+      <div id="div-skeleton-loaded-content" class="qa-card" style="background:var(--bg-main); margin-bottom:0; padding:16px;">
+        <h4 id="heading-skeleton-success" style="color:#22C55E;">✅ Data Loaded Successfully!</h4>
+        <p id="text-skeleton-data" style="font-size:13px; color:#9CA3AF; margin-top:4px;">AJAX payload fetched cleanly after skeleton loader completed.</p>
+      </div>
+    `;
+  }, 2000);
+}
+</script>
+{% endblock %}

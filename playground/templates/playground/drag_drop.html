@@ -1,0 +1,143 @@
+{% extends 'playground/base.html' %}
+{% load static %}
+
+{% block page_title %}Drag & Drop Practice{% endblock %}
+
+{% block extra_css %}
+<style>
+.qa-draggable-box {
+  background: var(--bg-card-hover);
+  border: 1px solid var(--accent-blue);
+  padding: 14px 20px;
+  border-radius: 8px;
+  color: var(--text-main);
+  font-weight: 600;
+  cursor: grab;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.qa-draggable-box:active { cursor: grabbing; opacity: 0.7; }
+.qa-drop-zone {
+  min-height: 160px;
+  background: var(--bg-main);
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+.qa-drop-zone.drag-over {
+  border-color: var(--accent-blue);
+  background: rgba(59, 130, 246, 0.1);
+}
+.kanban-column {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.kanban-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  cursor: grab;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="div-drag-drop-wrapper" data-testid="drag-drop-wrapper">
+
+  <!-- 1. Drag & Drop Target Zones -->
+  <div id="card-drag-target-zones" data-testid="card-drag-target-zones" class="qa-card">
+    <div id="header-drag-target-zones" class="qa-card-header">
+      <h3 id="title-drag-target-zones" class="qa-card-title">🎯 Drag Boxes to Target Drop Zones</h3>
+    </div>
+
+    <div id="div-drag-drop-layout" class="grid-2">
+      
+      <!-- Source Items -->
+      <div id="container-drag-source" class="qa-card" style="background: var(--bg-main); margin-bottom: 0;">
+        <h4 id="heading-source-box" style="font-size: 14px; margin-bottom: 12px; color: var(--text-muted);">Source Drag Items</h4>
+        
+        <div id="drag-item-1" data-testid="drag-item-1" data-qa="drag-box-selenium" class="qa-draggable-box" draggable="true">
+          <span>📦</span> Selenium Test Box #1 <span class="selector-info-tag">id="drag-item-1"</span>
+        </div>
+
+        <div id="drag-item-2" data-testid="drag-item-2" data-qa="drag-box-playwright" class="qa-draggable-box" draggable="true" style="margin-top: 10px; border-color: var(--accent-purple);">
+          <span>📦</span> Playwright Test Box #2 <span class="selector-info-tag">id="drag-item-2"</span>
+        </div>
+      </div>
+
+      <!-- Target Drop Zone -->
+      <div id="container-drop-target" data-testid="container-drop-target" data-qa="drop-zone-target" class="qa-drop-zone">
+        <h4 id="heading-target-box" style="font-size: 14px; color: var(--accent-blue);">Drop Items Here</h4>
+        <span id="text-drop-instruction" style="font-size: 12px; color: var(--text-dim);">Drag any box from left and drop inside this zone.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. Interactive Kanban Board -->
+  <div id="card-kanban-board" data-testid="card-kanban-board" class="qa-card">
+    <div id="header-kanban-board" class="qa-card-header">
+      <h3 id="title-kanban-board" class="qa-card-title">📋 Automation Task Kanban Board</h3>
+      <span class="qa-badge qa-badge-purple">Multi-Column Drag</span>
+    </div>
+
+    <div id="div-kanban-columns-grid" class="grid-3">
+      
+      <!-- Column 1: To Do -->
+      <div id="kanban-column-todo" data-testid="kanban-column-todo" data-qa="kanban-col-todo" class="kanban-column">
+        <h4 id="heading-kanban-todo" style="font-size: 14px; font-weight: 700; color: var(--warning);">📌 TO DO (2)</h4>
+        
+        <div id="kanban-task-101" data-testid="kanban-task-101" class="kanban-card" draggable="true">
+          <div id="task-title-101" style="font-weight: 600; font-size: 13.5px;">TASK-101: Fix Stale Element Exception</div>
+          <span class="selector-info-tag">id="kanban-task-101"</span>
+        </div>
+
+        <div id="kanban-task-102" data-testid="kanban-task-102" class="kanban-card" draggable="true">
+          <div id="task-title-102" style="font-weight: 600; font-size: 13.5px;">TASK-102: Automate Shadow DOM Inputs</div>
+          <span class="selector-info-tag">id="kanban-task-102"</span>
+        </div>
+      </div>
+
+      <!-- Column 2: In Progress -->
+      <div id="kanban-column-in-progress" data-testid="kanban-column-in-progress" data-qa="kanban-col-in-progress" class="kanban-column">
+        <h4 id="heading-kanban-progress" style="font-size: 14px; font-weight: 700; color: var(--accent-blue);">⚡ IN PROGRESS (1)</h4>
+        
+        <div id="kanban-task-103" data-testid="kanban-task-103" class="kanban-card" draggable="true">
+          <div id="task-title-103" style="font-weight: 600; font-size: 13.5px;">TASK-103: Playwright Parallel Runner</div>
+          <span class="selector-info-tag">id="kanban-task-103"</span>
+        </div>
+      </div>
+
+      <!-- Column 3: Done -->
+      <div id="kanban-column-done" data-testid="kanban-column-done" data-qa="kanban-col-done" class="kanban-column">
+        <h4 id="heading-kanban-done" style="font-size: 14px; font-weight: 700; color: var(--success);">✅ DONE (1)</h4>
+        
+        <div id="kanban-task-104" data-testid="kanban-task-104" class="kanban-card" draggable="true">
+          <div id="task-title-104" style="font-weight: 600; font-size: 13.5px;">TASK-104: Setup Django Test Suite</div>
+          <span class="selector-info-tag">id="kanban-task-104"</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/drag_drop.js' %}"></script>
+{% endblock %}

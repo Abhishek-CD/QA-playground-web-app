@@ -1,0 +1,106 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Mouse Actions Practice{% endblock %}
+
+{% block content %}
+<div id="div-mouse-actions-wrapper" data-testid="mouse-actions-wrapper" class="grid-2">
+
+  <!-- Hover & Tooltips Card -->
+  <div id="card-hover-tooltips" data-testid="card-hover-tooltips" class="qa-card">
+    <div id="header-hover-tooltips" class="qa-card-header">
+      <h3 id="title-hover-tooltips" class="qa-card-title">🖱️ Hover Reveals & Tooltips</h3>
+    </div>
+
+    <!-- Hover Reveal Box -->
+    <div id="box-hover-target" data-testid="box-hover-target" data-qa="hover-reveal-box" class="qa-card" style="background: var(--bg-main); text-align: center; padding: 24px; cursor: pointer;" onmouseenter="showHoverOverlay()" onmouseleave="hideHoverOverlay()">
+      <div id="text-hover-default-msg" style="font-size: 15px; font-weight: 600;">Move Mouse Over This Container</div>
+      <div id="div-hover-hidden-content" style="display: none; margin-top: 12px; font-size: 14px; color: var(--success); font-weight: 700;">
+        🎉 Secret Revealed: Hover Action Successfully Triggered!
+      </div>
+      <span class="selector-info-tag">id="box-hover-target"</span>
+    </div>
+
+    <!-- Tooltip Trigger Button -->
+    <div id="group-tooltip-trigger" class="form-group" style="margin-top: 24px;">
+      <label id="label-tooltip-demo" class="form-label">Tooltip Trigger Button</label>
+      <div style="position: relative; display: inline-block;">
+        <button type="button" id="btn-tooltip-trigger" data-testid="btn-tooltip-trigger" data-qa="tooltip-btn" class="qa-btn qa-btn-purple" onmouseenter="showTooltip()" onmouseleave="hideTooltip()">
+          Hover For Custom Tooltip
+        </button>
+        <div id="div-custom-tooltip" data-testid="div-custom-tooltip" style="display: none; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: #1F2937; border: 1px solid var(--accent-purple); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.4); z-index: 10;">
+          💡 Playwright: page.hover('#btn-tooltip-trigger')
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Resizable Box & Context Menu Card -->
+  <div id="card-resizable-context" data-testid="card-resizable-context" class="qa-card">
+    <div id="header-resizable-context" class="qa-card-header">
+      <h3 id="title-resizable-context" class="qa-card-title">📐 Resizable Element & Context Menu</h3>
+    </div>
+
+    <!-- Resizable Box -->
+    <div id="group-resizable-demo" class="form-group">
+      <label id="label-resizable-demo" class="form-label">Resizable Container (Drag Bottom-Right Handle)</label>
+      <div id="box-resizable-container" data-testid="box-resizable-container" style="width: 100%; height: 100px; min-height: 80px; background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; resize: both; overflow: auto;">
+        <span id="text-resizable-content" style="font-size: 13px; color: var(--text-muted);">Resize me horizontally or vertically using the drag handle!</span>
+      </div>
+      <span class="selector-info-tag">id="box-resizable-container"</span>
+    </div>
+
+    <!-- Context Menu Trigger Area -->
+    <div id="group-context-menu" class="form-group" style="margin-top: 20px;">
+      <label id="label-context-menu" class="form-label">Right-Click Context Menu Area</label>
+      <div id="div-context-area" data-testid="div-context-area" data-qa="context-menu-area" style="background: var(--bg-main); border: 2px dashed var(--accent-blue); padding: 20px; border-radius: 8px; text-align: center; cursor: context-menu;" oncontextmenu="handleCustomContextMenu(event)">
+        Right-Click Anywhere Inside This Area
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Range Slider Card -->
+  <div id="card-range-slider" data-testid="card-range-slider" class="qa-card" style="grid-column: 1 / -1;">
+    <div id="header-range-slider" class="qa-card-header">
+      <h3 id="title-range-slider" class="qa-card-title">🎚️ Range Slider Input</h3>
+      <span id="text-range-val-badge" data-testid="text-range-val-badge" style="font-size: 18px; font-weight: 800; color: var(--accent-blue);">50</span>
+    </div>
+
+    <input type="range" id="input-range-slider" data-testid="input-range-slider" data-qa="range-slider-input" min="0" max="100" value="50" style="width: 100%; accent-color: var(--accent-blue);" oninput="updateRangeSliderVal(this.value)" />
+    <div id="div-range-labels" style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px; color: var(--text-dim);">
+      <span>Min: 0</span>
+      <span class="selector-info-tag">id="input-range-slider"</span>
+      <span>Max: 100</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showHoverOverlay() {
+  document.getElementById('div-hover-hidden-content').style.display = 'block';
+}
+
+function hideHoverOverlay() {
+  document.getElementById('div-hover-hidden-content').style.display = 'none';
+}
+
+function showTooltip() {
+  document.getElementById('div-custom-tooltip').style.display = 'block';
+}
+
+function hideTooltip() {
+  document.getElementById('div-custom-tooltip').style.display = 'none';
+}
+
+function handleCustomContextMenu(e) {
+  e.preventDefault();
+  showQAToast('Custom Right-Click Context Menu Triggered!', 'success');
+}
+
+function updateRangeSliderVal(val) {
+  document.getElementById('text-range-val-badge').textContent = val;
+}
+</script>
+{% endblock %}

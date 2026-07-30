@@ -1,0 +1,133 @@
+{% extends 'playground/base.html' %}
+{% load static %}
+
+{% block page_title %}Home Dashboard{% endblock %}
+
+{% block content %}
+<div id="div-home-wrapper" data-testid="home-wrapper" data-qa="home-page-container">
+
+  <!-- Hero Section -->
+  <section id="hero-section" data-testid="hero-section" class="qa-card" style="background: linear-gradient(135deg, rgba(17, 24, 39, 0.9), rgba(15, 23, 42, 0.95)); border: 1px solid rgba(59, 130, 246, 0.3); padding: 40px; margin-bottom: 32px;">
+    <div id="hero-badge-tag" class="qa-badge qa-badge-purple" style="margin-bottom: 12px;">Next-Gen Practice Lab</div>
+    <h1 id="heading-title" data-testid="heading-title" data-qa="hero-title" class="page-title" style="font-size: 38px; background: linear-gradient(90deg, #FFFFFF, #93C5FD, #C084FC); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      QA Playground
+    </h1>
+    <p id="heading-subtitle" data-testid="heading-subtitle" data-qa="hero-subtitle" class="page-subtitle" style="font-size: 18px; max-width: 720px; margin-bottom: 24px;">
+      Modern Web Automation Testing Practice Platform for Selenium, Playwright, Cypress, WebDriverIO, Appium, Robot Framework, and manual testing.
+    </p>
+    
+    <div id="hero-cta-group" data-testid="hero-cta-group" style="display: flex; gap: 16px; flex-wrap: wrap;">
+      <a id="btn-start-practicing" data-testid="btn-start-practicing" data-qa="hero-start-btn" href="{% url 'login' %}" class="qa-btn qa-btn-primary">
+        🚀 Start Practicing
+      </a>
+      <a id="btn-explore-components" data-testid="btn-explore-components" data-qa="hero-explore-btn" href="{% url 'ecommerce' %}" class="qa-btn qa-btn-purple">
+        🛍️ Explore E-Commerce Demo
+      </a>
+    </div>
+  </section>
+
+  <!-- Statistics Cards -->
+  <section id="section-stats-cards" data-testid="section-stats-cards" class="grid-4" style="margin-bottom: 32px;">
+    <div id="stat-card-components" data-testid="stat-card-components" data-qa="stat-components" class="qa-card" style="margin-bottom: 0;">
+      <div id="stat-card-icon-1" style="font-size: 28px; margin-bottom: 8px;">🧩</div>
+      <div id="stat-card-val-1" style="font-size: 32px; font-weight: 800; color: var(--accent-blue);">30+</div>
+      <div id="stat-card-label-1" style="font-size: 13px; color: var(--text-muted);">Practice Modules</div>
+      <div id="stat-card-tag-1" class="selector-info-tag">id="stat-card-components"</div>
+    </div>
+
+    <div id="stat-card-elements" data-testid="stat-card-elements" data-qa="stat-elements" class="qa-card" style="margin-bottom: 0;">
+      <div id="stat-card-icon-2" style="font-size: 28px; margin-bottom: 8px;">⚡</div>
+      <div id="stat-card-val-2" style="font-size: 32px; font-weight: 800; color: var(--accent-purple);">150+</div>
+      <div id="stat-card-label-2" style="font-size: 13px; color: var(--text-muted);">Test Elements</div>
+      <div id="stat-card-tag-2" class="selector-info-tag">id="stat-card-elements"</div>
+    </div>
+
+    <div id="stat-card-responsive" data-testid="stat-card-responsive" data-qa="stat-responsive" class="qa-card" style="margin-bottom: 0;">
+      <div id="stat-card-icon-3" style="font-size: 28px; margin-bottom: 8px;">📱</div>
+      <div id="stat-card-val-3" style="font-size: 32px; font-weight: 800; color: var(--success);">100%</div>
+      <div id="stat-card-label-3" style="font-size: 13px; color: var(--text-muted);">Responsive Design</div>
+      <div id="stat-card-tag-3" class="selector-info-tag">id="stat-card-responsive"</div>
+    </div>
+
+    <div id="stat-card-automation" data-testid="stat-card-automation" data-qa="stat-automation" class="qa-card" style="margin-bottom: 0;">
+      <div id="stat-card-icon-4" style="font-size: 28px; margin-bottom: 8px;">🛡️</div>
+      <div id="stat-card-val-4" style="font-size: 32px; font-weight: 800; color: var(--warning);">Stable</div>
+      <div id="stat-card-label-4" style="font-size: 13px; color: var(--text-muted);">DOM & Unique IDs</div>
+      <div id="stat-card-tag-4" class="selector-info-tag">id="stat-card-automation"</div>
+    </div>
+  </section>
+
+  <!-- Module Cards Grid -->
+  <section id="section-module-cards" data-testid="section-module-cards">
+    <div id="module-grid-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+      <h2 id="heading-module-grid-title" style="font-size: 22px; font-weight: 700;">Practice Modules</h2>
+      <span id="text-module-count-badge" class="qa-badge qa-badge-blue">30 Modules Available</span>
+    </div>
+
+    <div id="div-modules-grid" class="grid-3">
+      
+      <div id="card-mod-login" class="qa-card">
+        <div id="mod-header-login" class="qa-card-header">
+          <span id="mod-icon-login" style="font-size: 24px;">🔑</span>
+          <span id="mod-badge-login" class="qa-badge qa-badge-blue">Forms</span>
+        </div>
+        <h3 id="mod-title-login" class="qa-card-title">Login Page</h3>
+        <p id="mod-desc-login" class="qa-card-subtitle">Form validation, credentials check, error messages, toast popups, remember me.</p>
+        <a id="btn-mod-open-login" data-testid="btn-open-login-module" href="{% url 'login' %}" class="qa-btn qa-btn-secondary" style="width: 100%; margin-top: 16px;">Practice Module →</a>
+      </div>
+
+      <div id="card-mod-register" class="qa-card">
+        <div id="mod-header-register" class="qa-card-header">
+          <span id="mod-icon-register" style="font-size: 24px;">📋</span>
+          <span id="mod-badge-register" class="qa-badge qa-badge-blue">Forms</span>
+        </div>
+        <h3 id="mod-title-register" class="qa-card-title">Registration Form</h3>
+        <p id="mod-desc-register" class="qa-card-subtitle">Multi-field form with dependent dropdowns, checkboxes, radios, date picker.</p>
+        <a id="btn-mod-open-register" data-testid="btn-open-register-module" href="{% url 'register' %}" class="qa-btn qa-btn-secondary" style="width: 100%; margin-top: 16px;">Practice Module →</a>
+      </div>
+
+      <div id="card-mod-tables" class="qa-card">
+        <div id="mod-header-tables" class="qa-card-header">
+          <span id="mod-icon-tables" style="font-size: 24px;">📊</span>
+          <span id="mod-badge-tables" class="qa-badge qa-badge-purple">Data</span>
+        </div>
+        <h3 id="mod-title-tables" class="qa-card-title">Data Tables</h3>
+        <p id="mod-desc-tables" class="qa-card-subtitle">Sorting, search filtering, pagination, checkbox selection, cell edit, CSV export.</p>
+        <a id="btn-mod-open-tables" data-testid="btn-open-tables-module" href="{% url 'tables' %}" class="qa-btn qa-btn-secondary" style="width: 100%; margin-top: 16px;">Practice Module →</a>
+      </div>
+
+      <div id="card-mod-drag-drop" class="qa-card">
+        <div id="mod-header-drag-drop" class="qa-card-header">
+          <span id="mod-icon-drag-drop" style="font-size: 24px;">🎯</span>
+          <span id="mod-badge-drag-drop" class="qa-badge qa-badge-success">Interactions</span>
+        </div>
+        <h3 id="mod-title-drag-drop" class="qa-card-title">Drag and Drop</h3>
+        <p id="mod-desc-drag-drop" class="qa-card-subtitle">Target drop zones, interactive Kanban Board, sortable list item reordering.</p>
+        <a id="btn-mod-open-drag-drop" data-testid="btn-open-drag-drop-module" href="{% url 'drag_drop' %}" class="qa-btn qa-btn-secondary" style="width: 100%; margin-top: 16px;">Practice Module →</a>
+      </div>
+
+      <div id="card-mod-ecommerce" class="qa-card">
+        <div id="mod-header-ecommerce" class="qa-card-header">
+          <span id="mod-icon-ecommerce" style="font-size: 24px;">🛍️</span>
+          <span id="mod-badge-ecommerce" class="qa-badge qa-badge-warning">Full App</span>
+        </div>
+        <h3 id="mod-title-ecommerce" class="qa-card-title">E-Commerce Sub-App</h3>
+        <p id="mod-desc-ecommerce" class="qa-card-subtitle">Product catalog, live search, cart drawer, multi-step checkout, payment options.</p>
+        <a id="btn-mod-open-ecommerce" data-testid="btn-open-ecommerce-module" href="{% url 'ecommerce' %}" class="qa-btn qa-btn-secondary" style="width: 100%; margin-top: 16px;">Practice Module →</a>
+      </div>
+
+      <div id="card-mod-api" class="qa-card">
+        <div id="mod-header-api" class="qa-card-header">
+          <span id="mod-icon-api" style="font-size: 24px;">🌐</span>
+          <span id="mod-badge-api" class="qa-badge qa-badge-purple">API</span>
+        </div>
+        <h3 id="mod-title-api" class="qa-card-title">API Playground</h3>
+        <p id="mod-desc-api" class="qa-card-subtitle">Simulated HTTP client (GET, POST, PUT, DELETE), status code generator (200, 404, 500).</p>
+        <a id="btn-mod-open-api" data-testid="btn-open-api-module" href="{% url 'api_playground' %}" class="qa-btn qa-btn-secondary" style="width: 100%; margin-top: 16px;">Practice Module →</a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+{% endblock %}

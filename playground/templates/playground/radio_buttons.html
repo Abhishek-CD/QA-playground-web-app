@@ -1,0 +1,118 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Radio Buttons Practice{% endblock %}
+
+{% block content %}
+<div id="div-radio-buttons-wrapper" data-testid="radio-buttons-wrapper" class="grid-2">
+
+  <!-- Basic Radio Groups -->
+  <div id="card-basic-radios" data-testid="card-basic-radios" class="qa-card">
+    <div id="header-basic-radios" class="qa-card-header">
+      <h3 id="title-basic-radios" class="qa-card-title">🔘 Standard Radio Button Groups</h3>
+    </div>
+
+    <!-- Gender Group -->
+    <div id="group-radio-gender" class="form-group">
+      <label id="label-radio-gender" class="form-label">Select Gender</label>
+      <div id="div-gender-radio-options" style="display: flex; gap: 20px; margin-top: 6px;">
+        <label id="label-radio-gender-male" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="radio" id="radio-gender-male-only" data-testid="radio-gender-male-only" data-qa="radio-gender-male" name="gender_group" value="Male" checked onchange="updateRadioOutput('text-gender-val', this.value)" /> Male
+        </label>
+        <label id="label-radio-gender-female" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="radio" id="radio-gender-female-only" data-testid="radio-gender-female-only" data-qa="radio-gender-female" name="gender_group" value="Female" onchange="updateRadioOutput('text-gender-val', this.value)" /> Female
+        </label>
+        <label id="label-radio-gender-other" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="radio" id="radio-gender-other-only" data-testid="radio-gender-other-only" data-qa="radio-gender-other" name="gender_group" value="Other" onchange="updateRadioOutput('text-gender-val', this.value)" /> Other
+        </label>
+      </div>
+      <div id="div-gender-val-row" style="display: flex; justify-content: space-between; margin-top: 6px;">
+        <span class="selector-info-tag">name="gender_group"</span>
+        <span id="text-gender-val" data-testid="text-gender-val" style="font-weight: 700; color: var(--accent-blue);">Selected: Male</span>
+      </div>
+    </div>
+
+    <!-- Experience Group -->
+    <div id="group-radio-experience" class="form-group" style="margin-top: 24px;">
+      <label id="label-radio-experience" class="form-label">Automation Experience Level</label>
+      <div id="div-experience-options" style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+        <label id="label-exp-junior" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="radio" id="radio-exp-junior" data-testid="radio-exp-junior" data-qa="radio-exp-1" name="exp_group" value="0-2 Years (Junior)" onchange="updateRadioOutput('text-exp-val', this.value)" /> 0-2 Years (Junior SDET)
+        </label>
+        <label id="label-exp-mid" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="radio" id="radio-exp-mid" data-testid="radio-exp-mid" data-qa="radio-exp-2" name="exp_group" value="3-5 Years (Mid-Level)" checked onchange="updateRadioOutput('text-exp-val', this.value)" /> 3-5 Years (Mid-Level Automation Engineer)
+        </label>
+        <label id="label-exp-senior" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="radio" id="radio-exp-senior" data-testid="radio-exp-senior" data-qa="radio-exp-3" name="exp_group" value="5+ Years (Senior Lead)" onchange="updateRadioOutput('text-exp-val', this.value)" /> 5+ Years (Senior SDET Lead / Architect)
+        </label>
+      </div>
+      <div id="div-exp-val-row" style="display: flex; justify-content: space-between; margin-top: 6px;">
+        <span class="selector-info-tag">name="exp_group"</span>
+        <span id="text-exp-val" data-testid="text-exp-val" style="font-weight: 700; color: var(--accent-purple);">Selected: 3-5 Years (Mid-Level)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Subscription Plan Card Radios -->
+  <div id="card-plan-radios" data-testid="card-plan-radios" class="qa-card">
+    <div id="header-plan-radios" class="qa-card-header">
+      <h3 id="title-plan-radios" class="qa-card-title">💳 Subscription Plan Cards (Custom Radios)</h3>
+    </div>
+
+    <div id="group-plan-cards" style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- Basic Plan Card -->
+      <label id="card-label-plan-basic" data-testid="card-label-plan-basic" class="qa-card" style="margin-bottom: 0; padding: 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+        <div id="div-plan-basic-info" style="display: flex; align-items: center; gap: 12px;">
+          <input type="radio" id="radio-plan-basic" data-testid="radio-plan-basic" data-qa="radio-plan-free" name="plan_group" value="Basic Free" onchange="updateRadioOutput('text-plan-val', 'Basic Free ($0/mo)')" />
+          <div>
+            <div id="text-plan-basic-name" style="font-weight: 700;">Basic Free</div>
+            <div id="text-plan-basic-desc" style="font-size: 12px; color: var(--text-dim);">10 Parallel Tests / Month</div>
+          </div>
+        </div>
+        <span id="text-plan-basic-price" style="font-weight: 800; color: var(--text-muted);">$0/mo</span>
+      </label>
+
+      <!-- Pro Plan Card -->
+      <label id="card-label-plan-pro" data-testid="card-label-plan-pro" class="qa-card" style="margin-bottom: 0; padding: 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border-color: var(--accent-blue);">
+        <div id="div-plan-pro-info" style="display: flex; align-items: center; gap: 12px;">
+          <input type="radio" id="radio-plan-pro" data-testid="radio-plan-pro" data-qa="radio-plan-pro" name="plan_group" value="Pro Automation" checked onchange="updateRadioOutput('text-plan-val', 'Pro Automation ($49/mo)')" />
+          <div>
+            <div id="text-plan-pro-name" style="font-weight: 700; color: var(--accent-blue);">Pro Automation ⭐</div>
+            <div id="text-plan-pro-desc" style="font-size: 12px; color: var(--text-dim);">100 Parallel Tests + Cross-Browser Grid</div>
+          </div>
+        </div>
+        <span id="text-plan-pro-price" style="font-weight: 800; color: var(--accent-blue);">$49/mo</span>
+      </label>
+
+      <!-- Enterprise Plan Card -->
+      <label id="card-label-plan-enterprise" data-testid="card-label-plan-enterprise" class="qa-card" style="margin-bottom: 0; padding: 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+        <div id="div-plan-enterprise-info" style="display: flex; align-items: center; gap: 12px;">
+          <input type="radio" id="radio-plan-enterprise" data-testid="radio-plan-enterprise" data-qa="radio-plan-enterprise" name="plan_group" value="Enterprise Suite" onchange="updateRadioOutput('text-plan-val', 'Enterprise Suite ($199/mo)')" />
+          <div>
+            <div id="text-plan-enterprise-name" style="font-weight: 700; color: var(--accent-purple);">Enterprise Suite</div>
+            <div id="text-plan-enterprise-desc" style="font-size: 12px; color: var(--text-dim);">Unlimited Parallel Execution + Dedicated Grid</div>
+          </div>
+        </div>
+        <span id="text-plan-enterprise-price" style="font-weight: 800; color: var(--accent-purple);">$199/mo</span>
+      </label>
+
+    </div>
+
+    <div id="div-selected-plan-result" class="qa-card" style="margin-top: 16px; margin-bottom: 0; background: var(--bg-main); padding: 12px;">
+      <span id="text-plan-val" data-testid="text-plan-val" style="font-weight: 800; color: var(--success);">Selected Plan: Pro Automation ($49/mo)</span>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function updateRadioOutput(targetId, val) {
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.textContent = `Selected: ${val}`;
+  }
+}
+</script>
+{% endblock %}

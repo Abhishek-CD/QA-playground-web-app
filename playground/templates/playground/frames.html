@@ -1,0 +1,29 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}IFrames Practice{% endblock %}
+
+{% block content %}
+<div id="div-frames-wrapper" data-testid="frames-wrapper" class="grid-2">
+
+  <!-- Single IFrame Practice -->
+  <div id="card-single-iframe" data-testid="card-single-iframe" class="qa-card">
+    <div id="header-single-iframe" class="qa-card-header">
+      <h3 id="title-single-iframe" class="qa-card-title">🖼️ Single IFrame Sandbox</h3>
+      <span class="selector-info-tag">id="iframe-demo-single"</span>
+    </div>
+
+    <iframe id="iframe-demo-single" data-testid="iframe-demo-single" data-qa="single-iframe-element" src="{% url 'frame_embed' 'single' %}" style="width: 100%; height: 260px; border: 1px solid var(--border-color); border-radius: 8px;"></iframe>
+  </div>
+
+  <!-- Second IFrame Practice -->
+  <div id="card-second-iframe" data-testid="card-second-iframe" class="qa-card">
+    <div id="header-second-iframe" class="qa-card-header">
+      <h3 id="title-second-iframe" class="qa-card-title">🖼️ Second Frame Context Switch</h3>
+      <span class="selector-info-tag">id="iframe-demo-second"</span>
+    </div>
+
+    <iframe id="iframe-demo-second" data-testid="iframe-demo-second" data-qa="second-iframe-element" src="{% url 'frame_embed' 'second' %}" style="width: 100%; height: 260px; border: 1px solid var(--border-color); border-radius: 8px;"></iframe>
+  </div>
+
+</div>
+{% endblock %}

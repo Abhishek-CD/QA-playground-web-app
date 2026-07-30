@@ -1,0 +1,130 @@
+{% extends 'playground/base.html' %}
+{% load static %}
+
+{% block page_title %}Data Tables Practice{% endblock %}
+
+{% block content %}
+<div id="div-tables-wrapper" data-testid="tables-wrapper">
+
+  <div id="card-automation-table-container" data-testid="card-automation-table-container" class="qa-card">
+    
+    <!-- Table Toolbar Header -->
+    <div id="header-table-toolbar" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
+      <div id="div-table-title-group">
+        <h2 id="heading-table-title" class="qa-card-title">📊 Dynamic User Data Table</h2>
+        <p id="text-table-subtitle" class="qa-card-subtitle">Search, filter, sort, select rows, and export tabular data.</p>
+      </div>
+
+      <div id="div-table-actions-group" style="display: flex; align-items: center; gap: 12px;">
+        <input type="text" id="input-table-search" data-testid="input-table-search" data-qa="table-search-input" class="form-input" placeholder="Search table..." style="width: 220px;" />
+        
+        <button type="button" id="btn-export-csv" data-testid="btn-export-csv" data-qa="export-csv-btn" class="qa-btn qa-btn-purple">
+          📥 Export CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- Table Header Info Bar -->
+    <div id="div-table-info-bar" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 13px; color: var(--text-muted);">
+      <span id="badge-selected-rows-count" data-testid="badge-selected-rows-count" class="qa-badge qa-badge-blue">0 Selected</span>
+      <span id="text-total-records-count" data-testid="text-total-records-count">Showing 10 Records</span>
+    </div>
+
+    <!-- Table Element -->
+    <div id="div-table-scroll-wrapper" class="qa-table-container">
+      <table id="table-automation-demo" data-testid="table-automation-demo" data-qa="automation-data-table" class="qa-table">
+        <thead id="thead-automation-table">
+          <tr id="tr-head-row">
+            <th id="th-check-all" style="width: 40px;">
+              <input type="checkbox" id="check-select-all" data-testid="check-select-all" data-qa="select-all-checkbox" />
+            </th>
+            <th id="th-user-id" data-testid="th-user-id">ID <span class="selector-info-tag">#th-user-id</span></th>
+            <th id="th-user-name" data-testid="th-user-name">Name</th>
+            <th id="th-user-email" data-testid="th-user-email">Email</th>
+            <th id="th-user-role" data-testid="th-user-role">Role</th>
+            <th id="th-user-status" data-testid="th-user-status">Status</th>
+            <th id="th-user-actions" data-testid="th-user-actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-automation-table" data-testid="tbody-automation-table">
+          
+          <tr id="tr-user-row-1" data-testid="tr-user-row-1">
+            <td id="td-check-1"><input type="checkbox" id="check-row-1" data-testid="check-row-1" class="check-row-select" /></td>
+            <td id="td-id-1" data-testid="td-id-1">101</td>
+            <td id="td-name-1" data-testid="td-name-1">Alice Smith</td>
+            <td id="td-email-1" data-testid="td-email-1">alice@qa.io</td>
+            <td id="td-role-1" data-testid="td-role-1"><span class="qa-badge qa-badge-blue">SDET Lead</span></td>
+            <td id="td-status-1" data-testid="td-status-1"><span class="qa-badge qa-badge-success">Active</span></td>
+            <td id="td-actions-1">
+              <button id="btn-edit-row-1" data-testid="btn-edit-row-1" class="qa-btn qa-btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="showQAToast('Editing row #101', 'info')">Edit</button>
+            </td>
+          </tr>
+
+          <tr id="tr-user-row-2" data-testid="tr-user-row-2">
+            <td id="td-check-2"><input type="checkbox" id="check-row-2" data-testid="check-row-2" class="check-row-select" /></td>
+            <td id="td-id-2" data-testid="td-id-2">102</td>
+            <td id="td-name-2" data-testid="td-name-2">Bob Johnson</td>
+            <td id="td-email-2" data-testid="td-email-2">bob@qa.io</td>
+            <td id="td-role-2" data-testid="td-role-2"><span class="qa-badge qa-badge-purple">Automation Engineer</span></td>
+            <td id="td-status-2" data-testid="td-status-2"><span class="qa-badge qa-badge-success">Active</span></td>
+            <td id="td-actions-2">
+              <button id="btn-edit-row-2" data-testid="btn-edit-row-2" class="qa-btn qa-btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="showQAToast('Editing row #102', 'info')">Edit</button>
+            </td>
+          </tr>
+
+          <tr id="tr-user-row-3" data-testid="tr-user-row-3">
+            <td id="td-check-3"><input type="checkbox" id="check-row-3" data-testid="check-row-3" class="check-row-select" /></td>
+            <td id="td-id-3" data-testid="td-id-3">103</td>
+            <td id="td-name-3" data-testid="td-name-3">Charlie Brown</td>
+            <td id="td-email-3" data-testid="td-email-3">charlie@qa.io</td>
+            <td id="td-role-3" data-testid="td-role-3"><span class="qa-badge qa-badge-warning">QA Analyst</span></td>
+            <td id="td-status-3" data-testid="td-status-3"><span class="qa-badge qa-badge-danger">Inactive</span></td>
+            <td id="td-actions-3">
+              <button id="btn-edit-row-3" data-testid="btn-edit-row-3" class="qa-btn qa-btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="showQAToast('Editing row #103', 'info')">Edit</button>
+            </td>
+          </tr>
+
+          <tr id="tr-user-row-4" data-testid="tr-user-row-4">
+            <td id="td-check-4"><input type="checkbox" id="check-row-4" data-testid="check-row-4" class="check-row-select" /></td>
+            <td id="td-id-4" data-testid="td-id-4">104</td>
+            <td id="td-name-4" data-testid="td-name-4">Diana Prince</td>
+            <td id="td-email-4" data-testid="td-email-4">diana@qa.io</td>
+            <td id="td-role-4" data-testid="td-role-4"><span class="qa-badge qa-badge-purple">Performance Tester</span></td>
+            <td id="td-status-4" data-testid="td-status-4"><span class="qa-badge qa-badge-success">Active</span></td>
+            <td id="td-actions-4">
+              <button id="btn-edit-row-4" data-testid="btn-edit-row-4" class="qa-btn qa-btn-secondary" style="padding: 2px 8px; font-size: 11px;" onclick="showQAToast('Editing row #104', 'info')">Edit</button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Pagination Footer -->
+    <div id="div-table-pagination" style="display: flex; align-items: center; justify-content: space-between; margin-top: 20px;">
+      <div id="group-page-size" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted);">
+        <span>Show</span>
+        <select id="select-page-size" data-testid="select-page-size" class="form-select" style="width: auto; padding: 4px 8px;">
+          <option id="opt-size-5" value="5">5</option>
+          <option id="opt-size-10" value="10" selected>10</option>
+          <option id="opt-size-25" value="25">25</option>
+        </select>
+        <span>per page</span>
+      </div>
+
+      <div id="group-pagination-btns" style="display: flex; gap: 8px;">
+        <button type="button" id="btn-page-prev" data-testid="btn-page-prev" class="qa-btn qa-btn-secondary" disabled>Previous</button>
+        <button type="button" id="btn-page-num-1" data-testid="btn-page-num-1" class="qa-btn qa-btn-primary" style="padding: 6px 12px;">1</button>
+        <button type="button" id="btn-page-num-2" data-testid="btn-page-num-2" class="qa-btn qa-btn-secondary" style="padding: 6px 12px;">2</button>
+        <button type="button" id="btn-page-next" data-testid="btn-page-next" class="qa-btn qa-btn-secondary">Next</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/tables.js' %}"></script>
+{% endblock %}

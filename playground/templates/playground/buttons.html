@@ -1,0 +1,170 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Buttons Playground{% endblock %}
+
+{% block content %}
+<div id="div-buttons-wrapper" data-testid="buttons-wrapper" class="grid-2">
+
+  <!-- Click Actions Grid -->
+  <div id="card-click-actions" data-testid="card-click-actions" class="qa-card">
+    <div id="header-click-actions" class="qa-card-header">
+      <h3 id="title-click-actions" class="qa-card-title">🖱️ Click Event Triggers</h3>
+    </div>
+
+    <div id="group-click-triggers" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Single Click -->
+      <div id="item-single-click-wrapper" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-single-click" data-testid="btn-single-click" data-qa="single-click-btn" class="qa-btn qa-btn-primary" onclick="handleSingleClick()">
+            Single Click Me
+          </button>
+          <span class="selector-info-tag">id="btn-single-click"</span>
+        </div>
+        <span id="text-single-click-status" data-testid="text-single-click-status" style="font-weight: 600; color: var(--text-muted);">Waiting...</span>
+      </div>
+
+      <!-- Double Click -->
+      <div id="item-double-click-wrapper" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-double-click" data-testid="btn-double-click" data-qa="double-click-btn" class="qa-btn qa-btn-purple" ondblclick="handleDoubleClick()">
+            Double Click Me
+          </button>
+          <span class="selector-info-tag">id="btn-double-click"</span>
+        </div>
+        <span id="text-double-click-status" data-testid="text-double-click-status" style="font-weight: 600; color: var(--text-muted);">Waiting...</span>
+      </div>
+
+      <!-- Right Click -->
+      <div id="item-right-click-wrapper" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-right-click" data-testid="btn-right-click" data-qa="right-click-btn" class="qa-btn qa-btn-secondary" oncontextmenu="handleRightClick(event)">
+            Right Click Me
+          </button>
+          <span class="selector-info-tag">id="btn-right-click"</span>
+        </div>
+        <span id="text-right-click-status" data-testid="text-right-click-status" style="font-weight: 600; color: var(--text-muted);">Waiting...</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- State & Loading Buttons -->
+  <div id="card-button-states" data-testid="card-button-states" class="qa-card">
+    <div id="header-button-states" class="qa-card-header">
+      <h3 id="title-button-states" class="qa-card-title">⏳ States & Dynamic Behavior</h3>
+    </div>
+
+    <div id="group-state-triggers" style="display: flex; flex-direction: column; gap: 16px;">
+      
+      <!-- Hover Button -->
+      <div id="item-hover-button-wrapper" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-hover-me" data-testid="btn-hover-me" data-qa="hover-btn" class="qa-btn qa-btn-secondary" onmouseenter="handleHoverEnter()" onmouseleave="handleHoverLeave()">
+            Hover Over Me
+          </button>
+          <span class="selector-info-tag">id="btn-hover-me"</span>
+        </div>
+        <span id="text-hover-status" data-testid="text-hover-status" style="font-weight: 600; color: var(--text-muted);">Mouse Away</span>
+      </div>
+
+      <!-- Loading State Button -->
+      <div id="item-loading-button-wrapper" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-loading-state" data-testid="btn-loading-state" data-qa="loading-btn" class="qa-btn qa-btn-primary" onclick="triggerLoadingState()">
+            <span id="span-loading-btn-text">Submit With Spinner</span>
+          </button>
+          <span class="selector-info-tag">id="btn-loading-state"</span>
+        </div>
+        <span id="text-loading-status" data-testid="text-loading-status" style="font-weight: 600; color: var(--text-muted);">Idle</span>
+      </div>
+
+      <!-- Disabled Toggle -->
+      <div id="item-disabled-toggle-wrapper" style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+          <button type="button" id="btn-target-disabled" data-testid="btn-target-disabled" data-qa="target-disabled-btn" class="qa-btn qa-btn-danger" disabled>
+            Disabled Button
+          </button>
+          <span class="selector-info-tag">id="btn-target-disabled"</span>
+        </div>
+        <label id="label-toggle-disabled-check" style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px;">
+          <input type="checkbox" id="checkbox-toggle-disabled" data-testid="checkbox-toggle-disabled" onchange="toggleButtonDisabled(this)" />
+          Enable Button
+        </label>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function handleSingleClick() {
+  const status = document.getElementById('text-single-click-status');
+  if (status) {
+    status.textContent = 'Single Click Verified!';
+    status.style.color = '#22C55E';
+  }
+}
+
+function handleDoubleClick() {
+  const status = document.getElementById('text-double-click-status');
+  if (status) {
+    status.textContent = 'Double Click Verified!';
+    status.style.color = '#8B5CF6';
+  }
+}
+
+function handleRightClick(e) {
+  e.preventDefault();
+  const status = document.getElementById('text-right-click-status');
+  if (status) {
+    status.textContent = 'Right Click Verified!';
+    status.style.color = '#3B82F6';
+  }
+}
+
+function handleHoverEnter() {
+  const status = document.getElementById('text-hover-status');
+  if (status) {
+    status.textContent = 'Hover Active!';
+    status.style.color = '#F59E0B';
+  }
+}
+
+function handleHoverLeave() {
+  const status = document.getElementById('text-hover-status');
+  if (status) {
+    status.textContent = 'Mouse Away';
+    status.style.color = '#9CA3AF';
+  }
+}
+
+function triggerLoadingState() {
+  const btn = document.getElementById('btn-loading-state');
+  const btnText = document.getElementById('span-loading-btn-text');
+  const status = document.getElementById('text-loading-status');
+  
+  if (btn && btnText && status) {
+    btn.disabled = true;
+    btnText.textContent = '⏳ Processing...';
+    status.textContent = 'Loading...';
+    status.style.color = '#F59E0B';
+
+    setTimeout(() => {
+      btn.disabled = false;
+      btnText.textContent = 'Submit With Spinner';
+      status.textContent = 'Completed!';
+      status.style.color = '#22C55E';
+    }, 2000);
+  }
+}
+
+function toggleButtonDisabled(checkbox) {
+  const btn = document.getElementById('btn-target-disabled');
+  if (btn) {
+    btn.disabled = !checkbox.checked;
+  }
+}
+</script>
+{% endblock %}

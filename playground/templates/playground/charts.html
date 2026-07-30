@@ -1,0 +1,46 @@
+{% extends 'playground/base.html' %}
+{% load static %}
+
+{% block page_title %}Interactive Charts Practice{% endblock %}
+
+{% block content %}
+<div id="div-charts-wrapper" data-testid="charts-wrapper" class="grid-2">
+
+  <!-- Bar Chart Card -->
+  <div id="card-bar-chart" data-testid="card-bar-chart" class="qa-card">
+    <div id="header-bar-chart" class="qa-card-header">
+      <h3 id="title-bar-chart" class="qa-card-title">📊 Framework Adoption Bar Chart</h3>
+    </div>
+
+    <canvas id="canvas-bar-chart" data-testid="canvas-bar-chart" data-qa="bar-chart-canvas"></canvas>
+    <span class="selector-info-tag" style="margin-top: 8px;">id="canvas-bar-chart"</span>
+  </div>
+
+  <!-- Line Chart Card -->
+  <div id="card-line-chart" data-testid="card-line-chart" class="qa-card">
+    <div id="header-line-chart" class="qa-card-header">
+      <h3 id="title-line-chart" class="qa-card-title">📈 Monthly Test Execution Trend</h3>
+    </div>
+
+    <canvas id="canvas-line-chart" data-testid="canvas-line-chart" data-qa="line-chart-canvas"></canvas>
+    <span class="selector-info-tag" style="margin-top: 8px;">id="canvas-line-chart"</span>
+  </div>
+
+  <!-- Pie Chart Card -->
+  <div id="card-pie-chart" data-testid="card-pie-chart" class="qa-card" style="grid-column: 1 / -1;">
+    <div id="header-pie-chart" class="qa-card-header">
+      <h3 id="title-pie-chart" class="qa-card-title">🍕 Automation Test Pass / Fail Ratio</h3>
+    </div>
+
+    <div id="div-pie-chart-layout" style="display: flex; align-items: center; justify-content: center;">
+      <canvas id="canvas-pie-chart" data-testid="canvas-pie-chart" data-qa="pie-chart-canvas"></canvas>
+    </div>
+    <span class="selector-info-tag" style="margin-top: 8px;">id="canvas-pie-chart"</span>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/charts.js' %}"></script>
+{% endblock %}

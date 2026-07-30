@@ -1,0 +1,36 @@
+{% extends 'playground/base.html' %}
+{% load static %}
+
+{% block page_title %}Shadow DOM Practice{% endblock %}
+
+{% block content %}
+<div id="div-shadow-dom-wrapper" data-testid="shadow-dom-wrapper" class="grid-2">
+
+  <!-- Open Shadow DOM Card -->
+  <div id="card-open-shadow-dom" data-testid="card-open-shadow-dom" class="qa-card">
+    <div id="header-open-shadow-dom" class="qa-card-header">
+      <h3 id="title-open-shadow-dom" class="qa-card-title">🔒 Open Shadow DOM Host</h3>
+      <span class="selector-info-tag">id="shadow-host-open"</span>
+    </div>
+
+    <!-- Shadow Root Mount Point -->
+    <div id="shadow-host-open" data-testid="shadow-host-open" data-qa="open-shadow-host"></div>
+  </div>
+
+  <!-- Closed Shadow DOM Card -->
+  <div id="card-closed-shadow-dom" data-testid="card-closed-shadow-dom" class="qa-card">
+    <div id="header-closed-shadow-dom" class="qa-card-header">
+      <h3 id="title-closed-shadow-dom" class="qa-card-title">🔐 Closed Shadow DOM Host</h3>
+      <span class="selector-info-tag">id="shadow-host-closed"</span>
+    </div>
+
+    <!-- Closed Shadow Root Mount Point -->
+    <div id="shadow-host-closed" data-testid="shadow-host-closed" data-qa="closed-shadow-host"></div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/shadow_dom.js' %}"></script>
+{% endblock %}

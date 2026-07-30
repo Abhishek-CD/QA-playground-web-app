@@ -1,0 +1,68 @@
+{% extends 'playground/base.html' %}
+
+{% block page_title %}Login Page Practice{% endblock %}
+
+{% block content %}
+<div id="div-login-page-wrapper" data-testid="login-page-wrapper" style="max-width: 540px; margin: 0 auto;">
+
+  <div id="card-login-box" data-testid="card-login-box" data-qa="login-card" class="qa-card">
+    <div id="login-header-block" class="qa-card-header" style="flex-direction: column; align-items: flex-start; gap: 4px;">
+      <h2 id="heading-login-title" data-testid="heading-login-title" class="qa-card-title">🔑 Sign In to QA Playground</h2>
+      <p id="text-login-subtitle" data-testid="text-login-subtitle" class="qa-card-subtitle">Use <b>admin</b> / <b>admin123</b> or test incorrect login validation.</p>
+    </div>
+
+    {% if message %}
+    <div id="div-login-alert-banner" data-testid="div-login-alert-banner" class="qa-card" style="background: {% if status == 'success' %}rgba(34, 197, 94, 0.15){% else %}rgba(239, 68, 68, 0.15){% endif %}; border-color: {% if status == 'success' %}#22C55E{% else %}#EF4444{% endif %}; padding: 12px; margin-bottom: 20px;">
+      <span id="text-login-alert-message" data-testid="text-login-alert-message" style="color: {% if status == 'success' %}#22C55E{% else %}#EF4444{% endif %}; font-weight: 600; font-size: 14px;">
+        {{ message }}
+      </span>
+    </div>
+    {% endif %}
+
+    <form id="form-login-credentials" data-testid="form-login-credentials" data-qa="login-form" method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
+
+      <div id="group-login-username" class="form-group">
+        <label id="label-login-username" for="input-username" class="form-label">Username</label>
+        <input type="text" id="input-username" data-testid="input-username" data-qa="username-input" name="username" class="form-input" placeholder="Enter username (e.g. admin)" required />
+        <span id="tag-selector-username" class="selector-info-tag">id="input-username"</span>
+      </div>
+
+      <div id="group-login-password" class="form-group">
+        <label id="label-login-password" for="input-password" class="form-label">Password</label>
+        <input type="password" id="input-password" data-testid="input-password" data-qa="password-input" name="password" class="form-input" placeholder="Enter password (e.g. admin123)" required />
+        <span id="tag-selector-password" class="selector-info-tag">id="input-password"</span>
+      </div>
+
+      <div id="group-login-options" class="form-group" style="display: flex; align-items: center; justify-content: space-between;">
+        <label id="label-remember-me" class="form-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer; margin-bottom: 0;">
+          <input type="checkbox" id="checkbox-remember-me" data-testid="checkbox-remember-me" data-qa="remember-checkbox" name="remember" value="1" />
+          <span id="span-remember-text">Remember Me</span>
+        </label>
+        <a id="link-forgot-password" data-testid="link-forgot-password" data-qa="forgot-password-link" href="#" onclick="showQAToast('Password reset link sent to demo email.', 'info'); return false;" style="color: var(--accent-blue); font-size: 13px; text-decoration: none;">
+          Forgot Password?
+        </a>
+      </div>
+
+      <button type="submit" id="btn-login-submit" data-testid="btn-login-submit" data-qa="login-submit-btn" class="qa-btn qa-btn-primary" style="width: 100%; margin-top: 12px;">
+        <span id="span-login-btn-text">Sign In</span>
+      </button>
+    </form>
+
+    <div id="div-login-divider" style="text-align: center; margin: 24px 0; color: var(--text-dim); font-size: 13px; position: relative;">
+      <span id="span-login-or" style="background: var(--bg-card); padding: 0 12px;">OR SIGN IN WITH</span>
+    </div>
+
+    <div id="group-social-logins" data-testid="group-social-logins" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <button id="btn-social-google" data-testid="btn-social-google" data-qa="google-login-btn" class="qa-btn qa-btn-secondary" onclick="showQAToast('Google OAuth Simulator Triggered', 'success')">
+        Google
+      </button>
+      <button id="btn-social-github" data-testid="btn-social-github" data-qa="github-login-btn" class="qa-btn qa-btn-secondary" onclick="showQAToast('GitHub OAuth Simulator Triggered', 'success')">
+        GitHub
+      </button>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
