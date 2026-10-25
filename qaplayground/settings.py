@@ -81,7 +81,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ALLOWED_HOSTS = [
 #     "yourusername.pythonanywhere.com",
 # ]
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
